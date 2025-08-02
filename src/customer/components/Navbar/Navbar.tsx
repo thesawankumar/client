@@ -16,12 +16,14 @@ export default function Navbar() {
   return (
     <div>
       <Box>
-        <div className="flex items-center justify-between px-5 lg:px-20 h-[70px] border-b border-gray-200">
+        <div className="flex bg-[#c4c2b9] items-center justify-between px-5 lg:px-20 h-[70px] border-b border-gray-200">
           <div className="flex items-center gap-9">
             <div className="flex items-center gap-2">
-              <IconButton>
-                <MenuIcon />
-              </IconButton>
+              {!isLargeScreen && (
+                <IconButton>
+                  <MenuIcon />
+                </IconButton>
+              )}
               <h1 className="logo cursor-pointer text-lg md:text-2xl text-[#4F46E5]">
                 SnapBuy
               </h1>
