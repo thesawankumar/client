@@ -4,6 +4,8 @@ import Navbar from "./customer/components/Navbar/Navbar";
 import customTheme from "./Theme/customTheme";
 import Home from "./customer/pages/Home/Home";
 import Footer from "./customer/components/Footer/Footer";
+import Product from "./customer/pages/Product/Product";
+import ProductDetails from "./customer/pages/Details/ProductDetails";
 
 function App() {
   return (
@@ -12,6 +14,8 @@ function App() {
         <Navbar />
         <Home />
         <Footer />
+        {/* <Product /> */}
+        {/* <ProductDetails /> */}
       </div>
     </ThemeProvider>
   );
