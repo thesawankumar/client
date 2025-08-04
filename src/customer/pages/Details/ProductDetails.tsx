@@ -4,6 +4,7 @@ import ProdctImage2 from "../../../images/skirt.png";
 import ProdctImage3 from "../../../images/saree.png";
 import { Star, ShoppingBag, FavoriteBorder } from "@mui/icons-material";
 import SimilarProduct from "./SimilarProduct";
+import ReviewCard from "../Review/ReviewCard";
 
 export default function ProductDetails() {
   const productImages = [ProdctImage, ProdctImage2, ProdctImage3];
@@ -104,6 +105,10 @@ export default function ProductDetails() {
             <p>• Easy to drape and maintain, suitable for all seasons.</p>
             <p>• Traditional design that blends elegance with comfort.</p>
             <p>• Ideal for festive, party, or daily wear.</p>
+          </div>
+          <div>
+            <h2 className="text-2xl font-bold mb-6 text-gray-800">Reviews</h2>
+            <ReviewCard />
           </div>
         </section>
       </div>
