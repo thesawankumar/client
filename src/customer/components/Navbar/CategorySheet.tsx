@@ -7,6 +7,7 @@ import { electronicsLevelTwoCategories } from "../../../data/category/levelTwo/e
 import { homeLevelTwoCategories } from "../../../data/category/levelTwo/homeLevelTwo";
 import { menLevelTwoCategories } from "../../../data/category/levelTwo/menLevelTwo";
 import { womenLevelTwoCategories } from "../../../data/category/levelTwo/womenLevelTwo";
+import { useNavigate } from "react-router-dom";
 
 const categoryTwo: { [key: string]: any[] } = {
   men: menLevelTwoCategories,
@@ -30,6 +31,7 @@ export default function CategorySheet({
   const getChildCategories = (categories: any[], parentId: string) => {
     return categories.filter((child) => child.parentCategoryId === parentId);
   };
+  const navigate = useNavigate();
 
   return (
     <Box
@@ -48,6 +50,7 @@ export default function CategorySheet({
               parent.categoryId
             ).map((sub) => (
               <li
+                onClick={() => navigate("/products/" + sub.categoryId)}
                 key={sub.categoryId}
                 className="text-sm text-gray-600 hover:text-indigo-600 hover:underline cursor-pointer transition-all duration-150"
               >

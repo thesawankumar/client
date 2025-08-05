@@ -61,7 +61,6 @@ export default function FilterSection() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <p className="text-xl font-semibold text-gray-800">Filters</p>
-
         <Button
           variant="outlined"
           size="small"

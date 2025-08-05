@@ -1,10 +1,6 @@
 import { Divider } from "@mui/material";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation, Outlet } from "react-router-dom";
 import { useEffect, useState } from "react";
-import Order from "./Order/Order";
-import OrderDetails from "./Order/OrderDetails";
-import UserDetails from "./User/UserDetails";
-import Address from "./User/Address";
 
 const menu = [
   { name: "Profile", path: "/account/profile" },
@@ -66,10 +62,7 @@ export default function Account() {
 
         {/* Right Content */}
         <section className="flex-1 bg-white rounded-xl shadow-md border border-gray-200 p-3">
-          {/* <Order /> */}
-          {/* <OrderDetails /> */}
-          {/* <UserDetails /> */}
-          <Address />
+          <Outlet />
         </section>
       </div>
     </div>

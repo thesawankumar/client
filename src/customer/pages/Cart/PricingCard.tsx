@@ -1,10 +1,12 @@
 import { useState } from "react";
 import { toast } from "react-toastify";
 import ClearIcon from "@mui/icons-material/Clear";
+import { useNavigate } from "react-router-dom";
 
 export default function PricingCard() {
   const [coupon, setCoupon] = useState("");
   const [isApplied, setIsApplied] = useState(false);
+  const navigate = useNavigate();
 
   const handleChange = (e: any) => {
     setCoupon(e.target.value);
@@ -85,7 +87,10 @@ export default function PricingCard() {
         <span>₹ {isApplied ? "799" : "1399"}</span>
       </div>
 
-      <button className="w-full bg-green-600 text-white text-sm py-3 rounded hover:bg-green-700">
+      <button
+        onClick={() => navigate("/checkout")}
+        className="w-full bg-green-600 cursor-pointer text-white text-sm py-3 rounded hover:bg-green-700"
+      >
         BUY NOW
       </button>
     </div>

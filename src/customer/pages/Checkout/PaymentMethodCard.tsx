@@ -63,7 +63,7 @@ export default function PaymentMethodCard() {
         <span>₹ 799 </span>
       </div>
       {/* Buy Button */}
-      <button className="w-full bg-green-600 text-white text-sm py-3 rounded hover:bg-green-700">
+      <button className="w-full cursor-pointer bg-green-600 text-white text-sm py-3 rounded hover:bg-green-700">
         CHECKOUT
       </button>
     </div>

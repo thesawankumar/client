@@ -12,6 +12,7 @@ import { AddShoppingCart, FavoriteBorder, Store } from "@mui/icons-material";
 import { mainCategories } from "../../../data/category/MainCategory";
 import CategorySheet from "./CategorySheet";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function Navbar() {
   const data = mainCategories;
@@ -19,6 +20,7 @@ export default function Navbar() {
   const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg")); // Example breakpoint for large screens
   const [selectedCategory, setSelectedCategory] = useState("men");
   const [showCategorySheet, setShowCategorySheet] = useState(false);
+  const navigate = useNavigate();
   return (
     <div>
       <Box className="sticky top-0 right-0 left-0 bg-white" sx={{ zIndex: 2 }}>
@@ -30,7 +32,10 @@ export default function Navbar() {
                   <MenuIcon />
                 </IconButton>
               )}
-              <h1 className="logo cursor-pointer text-lg md:text-2xl text-[#4F46E5]">
+              <h1
+                onClick={() => navigate("/")}
+                className="logo cursor-pointer text-lg md:text-2xl text-[#4F46E5]"
+              >
                 SnapBuy
               </h1>
             </div>
@@ -56,7 +61,11 @@ export default function Navbar() {
               <SearchIcon className="text-gray-600" />
             </IconButton>
             {true ? (
-              <Button className="flex items-center gap-2" color="primary">
+              <Button
+                onClick={() => navigate("/account/profile")}
+                className="flex items-center gap-2"
+                color="primary"
+              >
                 <Avatar sx={{ width: 28, height: 28 }} />
                 <h1 className="font-semibold hidden lg:block">Sawan</h1>
               </Button>
@@ -68,14 +77,19 @@ export default function Navbar() {
             <IconButton>
               <FavoriteBorder className="text-gray-600" sx={{ fontSize: 26 }} />
             </IconButton>
-            <IconButton>
+            <IconButton onClick={() => navigate("/cart")}>
               <AddShoppingCart
                 className="text-gray-600"
                 sx={{ fontSize: 26 }}
               />
             </IconButton>
             {isLargeScreen && (
-              <Button variant="outlined" color="primary" startIcon={<Store />}>
+              <Button
+                onClick={() => navigate("/become-seller")}
+                variant="outlined"
+                color="primary"
+                startIcon={<Store />}
+              >
                 Seller
               </Button>
             )}

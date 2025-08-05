@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { Button, Modal, Box } from "@mui/material";
-import AddressCart from "./AddressCard";
 import AddressForm from "./AddressForm";
 import PaymentMethodCard from "./PaymentMethodCard";
+import AddressCard from "./AddressCard";
 
 export default function Checkout() {
   const [open, setOpen] = useState(false);
@@ -29,8 +29,8 @@ export default function Checkout() {
               </div>
 
               <div className="space-y-4">
-                <AddressCart />
-                <AddressCart />
+                <AddressCard />
+                <AddressCard />
               </div>
 
               <Button

@@ -31,7 +31,7 @@ export default function Product() {
   };
 
   return (
-    <div className="mt-16 px-4 md:px-10 lg:px-20">
+    <div className="mt-6 px-4 mb-5 md:px-10 lg:px-20">
       {/* Title */}
       <div className="text-3xl md:text-4xl text-center font-bold text-gray-700 tracking-wide uppercase mb-8 transition-all duration-300">
         Women Sarees
