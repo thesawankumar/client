@@ -20,12 +20,14 @@ import Address from "./customer/pages/Account/User/Address";
 import Order from "./customer/pages/Account/Order/Order";
 import OrderDetails from "./customer/pages/Account/Order/OrderDetails";
 import SellerPage from "./customer/pages/SellerPage/SellerPage";
-// import Checkout from "./customer/pages/Checkout/Checkout";
-// import Home from "./customer/pages/Home/Home";
-// import Footer from "./customer/components/Footer/Footer";
-// import Product from "./customer/pages/Product/Product";
-// import ProductDetails from "./customer/pages/Details/ProductDetails";
-// import Review from "./customer/pages/Review/Review";
+import Seller from "./seller/pages/Dashboard/Seller";
+import Dashboard from "./seller/pages/Dashboard/Dashboard";
+import Products from "./seller/pages/Products/Products";
+import AddProduct from "./seller/pages/Products/AddProduct";
+import Orders from "./seller/pages/Orders/Orders";
+import Profile from "./seller/pages/Account/Profile";
+import Payment from "./seller/pages/Payment/Payment";
+import Transaction from "./seller/pages/Payment/Transaction";
 
 function App() {
   return (
@@ -43,9 +45,11 @@ function App() {
           />
           <Route path="/cart" element={<Cart />} />
           <Route path="/checkout" element={<Checkout />} />
+
+          {/* Account Routes */}
           <Route path="/account" element={<Account />}>
             <Route path="profile" element={<UserDetails />} />
-            <Route path="/account/save-card" element={<div>Saved Card</div>} />
+            <Route path="save-card" element={<div>Saved Card</div>} />
             <Route path="address" element={<Address />} />
             <Route path="orders" element={<Order />} />
             <Route
@@ -53,8 +57,20 @@ function App() {
               element={<OrderDetails />}
             />
           </Route>
+
+          {/* Seller Routes */}
           <Route path="/become-seller" element={<SellerPage />} />
+          <Route path="/seller" element={<Seller />}>
+            <Route index element={<Dashboard />} /> {/* default */}
+            <Route path="products" element={<Products />} />
+            <Route path="add-product" element={<AddProduct />} />
+            <Route path="orders" element={<Orders />} />
+            <Route path="account" element={<Profile />} />
+            <Route path="payment" element={<Payment />} />
+            <Route path="transaction" element={<Transaction />} />
+          </Route>
         </Routes>
+
         <Footer />
       </div>
     </ThemeProvider>
