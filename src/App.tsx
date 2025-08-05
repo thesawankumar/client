@@ -5,7 +5,8 @@ import customTheme from "./Theme/customTheme";
 // import Cart from "./customer/pages/Cart/Cart";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import Checkout from "./customer/pages/Checkout/Checkout";
+import Account from "./customer/pages/Account/Account";
+// import Checkout from "./customer/pages/Checkout/Checkout";
 // import Home from "./customer/pages/Home/Home";
 // import Footer from "./customer/components/Footer/Footer";
 // import Product from "./customer/pages/Product/Product";
@@ -24,7 +25,8 @@ function App() {
         {/* <ProductDetails /> */}
         {/* <Review /> */}
         {/* <Cart /> */}
-        <Checkout />
+        {/* <Checkout /> */}
+        <Account />
       </div>
     </ThemeProvider>
   );

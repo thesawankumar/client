@@ -22,7 +22,7 @@ export default function Navbar() {
   return (
     <div>
       <Box className="sticky top-0 right-0 left-0 bg-white" sx={{ zIndex: 2 }}>
-        <div className="flex bg-[#c4c2b9] items-center justify-between px-5 lg:px-20 h-[70px] border-b border-gray-200">
+        <div className="flex items-center justify-between px-5 lg:px-20 h-[70px] border-b border-gray-200">
           <div className="flex items-center gap-9">
             <div className="flex items-center gap-2">
               {!isLargeScreen && (
@@ -55,7 +55,7 @@ export default function Navbar() {
             <IconButton>
               <SearchIcon className="text-gray-600" />
             </IconButton>
-            {false ? (
+            {true ? (
               <Button className="flex items-center gap-2" color="primary">
                 <Avatar sx={{ width: 28, height: 28 }} />
                 <h1 className="font-semibold hidden lg:block">Sawan</h1>
