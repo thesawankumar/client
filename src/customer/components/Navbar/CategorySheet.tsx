@@ -49,8 +49,8 @@ export default function CategorySheet({
               categoryThree[selectedCategory],
               parent.categoryId
             ).map((sub) => (
-              <li
-                onClick={() => navigate("/products/" + sub.categoryId)}
+              <li 
+              onClick={()=> navigate("/products/"+sub.categoryId)}
                 key={sub.categoryId}
                 className="text-sm text-gray-600 hover:text-indigo-600 hover:underline cursor-pointer transition-all duration-150"
               >

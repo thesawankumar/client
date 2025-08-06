@@ -40,8 +40,9 @@ export default function Navbar() {
               </h1>
             </div>
             <ul className="flex items-center font-medium h-[70px]">
-              {data.map((item) => (
+              {data.map((item, index) => (
                 <li
+                  key={index}
                   onMouseLeave={() => {
                     setShowCategorySheet(false);
                   }}
