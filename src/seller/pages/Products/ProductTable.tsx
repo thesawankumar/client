@@ -1,4 +1,4 @@
-import React from "react";
+import { useEffect } from "react";
 import {
   Table,
   TableBody,
@@ -12,45 +12,17 @@ import {
   Typography,
 } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
-import shirt1 from "../../../images/shirt.png";
-import shirt2 from "../../../images/formal-shirt.png";
-import saree1 from "../../../images/saree.png";
-import saree2 from "../../../images/saree.png";
-import formal1 from "../../../images/formal-shirt.png";
-import skirt1 from "../../../images/skirt.png";
 
-type Product = {
-  id: string;
-  title: string;
-  images: string[];
-  mrp: number;
-  sellingPrice: number;
-  color: string;
-  stock: string;
-};
-
-const dummyProducts: Product[] = [
-  {
-    id: "1",
-    title: "Nike Air Max",
-    images: [shirt1, shirt2, formal1],
-    mrp: 2000,
-    sellingPrice: 1800,
-    color: "Red",
-    stock: "IN_STOCK",
-  },
-  {
-    id: "2",
-    title: "Adidas Ultraboost",
-    images: [saree1, saree2, skirt1],
-    mrp: 2500,
-    sellingPrice: 2100,
-    color: "Blue",
-    stock: "OUT_OF_STOCK",
-  },
-];
+import { useAppDispatch, useAppSelector } from "../../../redux/store";
+import { fetchSellerProduct } from "../../../redux/seller/actions/sellerProductAction";
 
 export default function ProductTable() {
+  const dispatch = useAppDispatch();
+  const { sellerProduct } = useAppSelector((store) => store);
+
+  useEffect(() => {
+    dispatch(fetchSellerProduct(localStorage.getItem("jwt")));
+  }, []);
   return (
     <TableContainer component={Paper} sx={{ borderRadius: 2 }}>
       <Typography variant="h6" sx={{ p: 2 }}>
@@ -83,7 +55,7 @@ export default function ProductTable() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {dummyProducts.map((product) => (
+          {sellerProduct.product.map((product) => (
             <TableRow key={product.id}>
               <TableCell>
                 <div style={{ display: "flex", gap: "4px" }}>
@@ -110,13 +82,16 @@ export default function ProductTable() {
                 </div>
               </TableCell>
               <TableCell>{product.title}</TableCell>
-              <TableCell>₹{product.mrp}</TableCell>
+              <TableCell>₹{product.mrpPrice}</TableCell>
               <TableCell>₹{product.sellingPrice}</TableCell>
               <TableCell>{product.color}</TableCell>
               <TableCell
-                sx={{ color: product.stock === "IN_STOCK" ? "green" : "red" }}
+                sx={{
+                  color:
+                    product.quantity !== product.quantity ? "green" : "red",
+                }}
               >
-                {product.stock}
+                {product.quantity}
               </TableCell>
               <TableCell>
                 <IconButton color="primary">

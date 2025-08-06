@@ -61,7 +61,7 @@ export default function Navbar() {
             <IconButton>
               <SearchIcon className="text-gray-600" />
             </IconButton>
-            {true ? (
+            {false ? (
               <Button
                 onClick={() => navigate("/account/profile")}
                 className="flex items-center gap-2"

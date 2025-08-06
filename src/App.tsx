@@ -4,7 +4,7 @@ import Navbar from "./customer/components/Navbar/Navbar";
 import customTheme from "./Theme/customTheme";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useNavigate } from "react-router-dom";
 import Home from "./customer/pages/Home/Home";
 import Product from "./customer/pages/Product/Product";
 import ReviewPage from "./customer/pages/Review/Review";
@@ -34,8 +34,25 @@ import Electronic from "./admin/pages/Home/Electronic";
 import ShopCategory from "./admin/pages/Home/ShopCategory";
 import Deal from "./admin/pages/Home/Deal/Deal";
 import SellerTable from "./admin/pages/Seller/SellerTable";
+import { useEffect } from "react";
+import { useAppDispatch, useAppSelector } from "./redux/store";
+import { fetchSellerProfile } from "./redux/seller/actions/sellerAction";
 
 function App() {
+  const dispatch = useAppDispatch();
+  const { seller } = useAppSelector((store) => store);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    dispatch(fetchSellerProfile(localStorage.getItem("jwt") || ""));
+  }, []);
+
+  useEffect(() => {
+    if (seller.profile) {
+      navigate("/seller");
+    }
+  }, [seller.profile]);
+
   return (
     <ThemeProvider theme={customTheme}>
       <ToastContainer autoClose={1000} />

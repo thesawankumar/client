@@ -1,11 +1,15 @@
 import { useState, useRef, useEffect } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import { useAppDispatch } from "../../../redux/store";
+import { sendLoginOtp } from "../../../redux/seller/slices/AuthSlice";
+import { sellerLogin } from "../../../redux/seller/actions/sellerAction";
 
 export default function SellerLogin() {
   const [showOtp, setShowOtp] = useState(false);
   const [otpValues, setOtpValues] = useState<string[]>(Array(6).fill(""));
   const otpRefs = useRef<(HTMLInputElement | null)[]>([]);
+  const dispatch = useAppDispatch();
 
   const formik = useFormik({
     initialValues: {
@@ -27,15 +31,20 @@ export default function SellerLogin() {
       }),
     }),
     onSubmit: (values) => {
-      if (!showOtp) {
-        console.log("Sending OTP to:", values.email);
-        setShowOtp(true);
-      } else {
-        console.log("Verifying OTP:", values.otp);
-        alert("OTP verified successfully!");
-      }
+      dispatch(sellerLogin(values));
     },
   });
+
+  const sendOtpHandler = async () => {
+    if (!formik.values.email || formik.errors.email) {
+      formik.setTouched({ email: true });
+      return;
+    }
+    await dispatch(
+      sendLoginOtp({ email: formik.values.email, role: "ROLE_SELLER" })
+    );
+    setShowOtp(true); // Show OTP fields after successful OTP send
+  };
 
   const handleOtpChange = (index: number, value: string) => {
     if (!/^\d?$/.test(value)) return;
@@ -51,7 +60,7 @@ export default function SellerLogin() {
     }
   };
 
-  // Update formik value when OTP changes
+  // Keep Formik in sync with local OTP state
   useEffect(() => {
     formik.setFieldValue("otp", otpValues.join(""));
   }, [otpValues]);
@@ -110,13 +119,23 @@ export default function SellerLogin() {
           </div>
         )}
 
-        {/* Submit Button */}
-        <button
-          type="submit"
-          className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-md text-sm font-medium transition"
-        >
-          {showOtp ? "Verify OTP" : "Send OTP"}
-        </button>
+        {/* Dynamic Submit Button */}
+        {!showOtp ? (
+          <button
+            type="button"
+            onClick={sendOtpHandler}
+            className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-md text-sm font-medium transition"
+          >
+            Send OTP
+          </button>
+        ) : (
+          <button
+            type="submit"
+            className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-md text-sm font-medium transition"
+          >
+            Login
+          </button>
+        )}
       </form>
     </div>
   );
