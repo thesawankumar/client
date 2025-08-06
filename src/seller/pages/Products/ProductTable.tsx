@@ -58,7 +58,7 @@ export default function ProductTable() {
       </Typography>
       <Table>
         <TableHead>
-          <TableRow>
+          <TableRow className="bg-gray-100">
             <TableCell>
               <strong>Image</strong>
             </TableCell>

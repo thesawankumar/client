@@ -2,10 +2,8 @@ import { ThemeProvider } from "@mui/material";
 import "./App.css";
 import Navbar from "./customer/components/Navbar/Navbar";
 import customTheme from "./Theme/customTheme";
-// import Cart from "./customer/pages/Cart/Cart";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-// import Account from "./customer/pages/Account/Account";
 import { Route, Routes } from "react-router-dom";
 import Home from "./customer/pages/Home/Home";
 import Product from "./customer/pages/Product/Product";
@@ -28,6 +26,14 @@ import Orders from "./seller/pages/Orders/Orders";
 import Profile from "./seller/pages/Account/Profile";
 import Payment from "./seller/pages/Payment/Payment";
 import Transaction from "./seller/pages/Payment/Transaction";
+import AdminDashboard from "./admin/pages/Dashboard/AdminDashboard";
+import Coupon from "./admin/pages/Coupon/Coupon";
+import AddCoupon from "./admin/pages/Coupon/AddCoupon";
+import HomePage from "./admin/pages/Home/HomePage";
+import Electronic from "./admin/pages/Home/Electronic";
+import ShopCategory from "./admin/pages/Home/ShopCategory";
+import Deal from "./admin/pages/Home/Deal/Deal";
+import SellerTable from "./admin/pages/Seller/SellerTable";
 
 function App() {
   return (
@@ -68,6 +74,17 @@ function App() {
             <Route path="account" element={<Profile />} />
             <Route path="payment" element={<Payment />} />
             <Route path="transaction" element={<Transaction />} />
+          </Route>
+
+          {/* Admin Routes */}
+          <Route path="/admin" element={<AdminDashboard />}>
+            <Route index element={<SellerTable />} />
+            <Route path="coupon" element={<Coupon />} />
+            <Route path="add-coupon" element={<AddCoupon />} />
+            <Route path="home-page" element={<HomePage />} />
+            <Route path="electric-category" element={<Electronic />} />
+            <Route path="shop-by-category" element={<ShopCategory />} />
+            <Route path="deal" element={<Deal />} />
           </Route>
         </Routes>
 

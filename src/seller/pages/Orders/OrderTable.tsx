@@ -12,6 +12,7 @@ import {
 } from "@mui/material";
 import ProductImage from "../../../images/shirt.png";
 import ProductImage2 from "../../../images/shirt.png";
+
 const orders = [
   {
     orderId: "ORD001",
@@ -39,7 +40,7 @@ export default function OrderTable() {
       </Typography>
       <Table>
         <TableHead>
-          <TableRow>
+          <TableRow className="bg-gray-100">
             <TableCell>
               <strong>Order ID</strong>
             </TableCell>

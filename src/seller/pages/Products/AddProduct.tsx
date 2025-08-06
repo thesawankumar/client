@@ -4,11 +4,6 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import {
   Typography,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
-  FormHelperText,
 } from "@mui/material";
 import { colors } from "../../../data/Filter/color";
 
@@ -52,7 +47,6 @@ const categoryThree: { [key: string]: any[] } = {
 
 export default function AddProduct() {
   const [images, setImages] = useState<string[]>([]);
-  const [isUploading, setIsUploading] = useState(false);
   const [imageError, setImageError] = useState("");
   const [levelTwoOptions, setLevelTwoOptions] = useState<any[]>([]);
   const [levelThreeOptions, setLevelThreeOptions] = useState<any[]>([]);
@@ -96,25 +90,7 @@ export default function AddProduct() {
     },
   });
 
-  // const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   const files = e.target.files;
-  //   if (!files) return;
-
-  //   const imageArray = Array.from(files);
-  //   const uploadedUrls: string[] = [];
-
-  //   for (const file of imageArray) {
-  //     const uploadedUrl = await uploadToCloudinary(file);
-  //     if (uploadedUrl) {
-  //       uploadedUrls.push(uploadedUrl);
-  //     }
-  //   }
-
-  //   const newImages = [...formik.values.images, ...uploadedUrls].slice(0, 5);
-  //   formik.setFieldValue("images", newImages);
-  //   setImageError(""); // clear error
-  // };
-
+  
   const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;

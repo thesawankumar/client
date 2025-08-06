@@ -42,7 +42,7 @@ export default function TransactionTable() {
       </Typography>
       <Table>
         <TableHead>
-          <TableRow>
+          <TableRow className="bg-gray-100">
             <TableCell>
               <strong>Date</strong>
             </TableCell>
