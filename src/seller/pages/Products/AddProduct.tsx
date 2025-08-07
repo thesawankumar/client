@@ -2,9 +2,7 @@ import { useState } from "react";
 import CloseIcon from "@mui/icons-material/Close";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import {
-  Typography,
-} from "@mui/material";
+import { Typography } from "@mui/material";
 import { colors } from "../../../data/Filter/color";
 
 import { electronicsLevelThreeCategories } from "../../../data/category/levelThree/electronicLevelThree";
@@ -17,6 +15,8 @@ import { menLevelTwoCategories } from "../../../data/category/levelTwo/menLevelT
 import { womenLevelTwoCategories } from "../../../data/category/levelTwo/womenLevelTwo";
 import { mainCategories } from "../../../data/category/MainCategory";
 import { uploadToCloudinary } from "../../../utils/Cloudinary";
+import { useAppDispatch } from "../../../redux/store";
+import { createProduct } from "../../../redux/seller/actions/sellerProductAction";
 const sizes = ["XS", "S", "M", "L", "XL", "XXL"];
 
 type ProductFormValues = {
@@ -46,11 +46,11 @@ const categoryThree: { [key: string]: any[] } = {
 };
 
 export default function AddProduct() {
-  const [images, setImages] = useState<string[]>([]);
   const [imageError, setImageError] = useState("");
   const [levelTwoOptions, setLevelTwoOptions] = useState<any[]>([]);
   const [levelThreeOptions, setLevelThreeOptions] = useState<any[]>([]);
   const [uploading, setUploading] = useState(false);
+  const dispatch = useAppDispatch();
 
   const formik = useFormik<ProductFormValues>({
     initialValues: {
@@ -81,16 +81,27 @@ export default function AddProduct() {
       levelThreeCategory: Yup.string().required("Third category is required"),
     }),
     onSubmit: (values) => {
-      if (images.length === 0) {
-        setImageError("At least one image is required");
-        return;
+      console.log("Submitting values: ", values);
+      const jwt = localStorage.getItem("jwt");
+      if (!jwt) {
+        throw new Error("JWT not found in localStorage");
       }
-      setImageError("");
-      console.log("Form submitted:", { ...values, images });
+      const requestPayload = {
+        title: values.title,
+        description: values.description,
+        mrpPrice: Number(values.mrp),
+        sellingPrice: Number(values.sellingPrice),
+        color: values.color,
+        sizes: values.size,
+        images: values.images,
+        category: values.mainCategory,
+        category2: values.levelTwoCategory,
+        category3: values.levelThreeCategory,
+      };
+      dispatch(createProduct({ request: requestPayload, jwt }));
     },
   });
 
-  
   const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -339,10 +350,7 @@ export default function AddProduct() {
           >
             <option value="">Select Main Category</option>
             {mainCategories.map((cat) => (
-              <option
-                key={cat.categoryId.toString()}
-                value={cat.categoryId.toString()}
-              >
+              <option key={cat.categoryId} value={cat.categoryId}>
                 {cat.categoryId}
               </option>
             ))}

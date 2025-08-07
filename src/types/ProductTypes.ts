@@ -18,8 +18,6 @@ export interface Product {
   in_stock: boolean;
 }
 
-
-
 export interface Category {
   id?: number;
   name: string;
