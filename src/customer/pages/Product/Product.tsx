@@ -14,7 +14,7 @@ import FilterSection from "./FilterSection";
 import ProductCard from "./ProductCard";
 import { FilterAlt } from "@mui/icons-material";
 import { useEffect, useState } from "react";
-import { useAppDispatch } from "../../../redux/store";
+import { useAppDispatch, useAppSelector } from "../../../redux/store";
 import { fetchAllProduct } from "../../../redux/customer/actions/customerProductAction";
 import { useParams, useSearchParams } from "react-router-dom";
 import { priceRanges } from "../../../data/Filter/price";
@@ -27,7 +27,7 @@ export default function Product() {
   const dispatch = useAppDispatch();
   const [searchParams] = useSearchParams();
   const { categoryId } = useParams();
-
+  const { totalPages } = useAppSelector((store) => store.product);
   const handleSortChange = (event: any) => {
     setSort(event.target.value);
   };
@@ -42,7 +42,8 @@ export default function Product() {
 
     const filters: any = {
       pageNumber: page - 1,
-      categoryId
+      totalPages: 8,
+      categoryId,
     };
 
     if (priceValue) {
@@ -113,11 +114,10 @@ export default function Product() {
           <Divider />
 
           <ProductCard />
-          
 
           <div className="flex items-center justify-center mb-5">
             <Pagination
-              count={10}
+              count={totalPages || 1}
               variant="outlined"
               page={page}
               onChange={handlePageChange}

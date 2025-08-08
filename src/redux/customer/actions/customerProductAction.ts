@@ -1,11 +1,11 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { api } from "../../../config/Api";
-const API_URL = "http://localhost:8080";
+
 export const fetchProductById = createAsyncThunk<any, number>(
   "product/fetchProductById",
   async (productId, { rejectWithValue }) => {
     try {
-      const response = await api.get(`${API_URL}/product/${productId}`);
+      const response = await api.get(`/product/${productId}`);
       const data = response.data;
       console.log("Fetch Product By id", data);
       return data;
@@ -20,7 +20,7 @@ export const searchProduct = createAsyncThunk(
   "product/searchProduct",
   async (query, { rejectWithValue }) => {
     try {
-      const response = await api.get(`${API_URL}/product/search`, {
+      const response = await api.get(`/product/search`, {
         params: {
           query,
         },
@@ -39,7 +39,7 @@ export const fetchAllProduct = createAsyncThunk<any, any>(
   "product/fetchAllProduct",
   async (params, { rejectWithValue }) => {
     try {
-      const response = await api.get(`${API_URL}/product/all`, {
+      const response = await api.get(`/product/all`, {
         params: { ...params, pageNumber: params.pageNumber || 0 },
       });
       const data = response.data;
