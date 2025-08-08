@@ -1,9 +1,10 @@
+// src/components/Sidebar.tsx
 import { Divider } from "@mui/material";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import type { ReactNode } from "react";
 import { useAppDispatch } from "../redux/store";
-import { logout } from "../redux/AuthSlice";
+import { logout } from "../redux/auth/AuthAction";
 
 export interface MenuItem {
   name: string;
@@ -21,6 +22,7 @@ export default function Sidebar({ upperMenu, lowerMenu }: SidebarProps) {
   const location = useLocation();
   const [activePath, setActivePath] = useState(location.pathname);
   const dispatch = useAppDispatch();
+
   useEffect(() => {
     setActivePath(location.pathname);
   }, [location.pathname]);
@@ -30,9 +32,18 @@ export default function Sidebar({ upperMenu, lowerMenu }: SidebarProps) {
     navigate(path);
   };
 
-  const handleLogout = () => {
-    dispatch(logout(navigate));
+  const handleLogout = async () => {
+    console.log("handleLogout started");
+    const resultAction = await dispatch(logout());
+    console.log("Logout dispatch result:", resultAction);
+
+    if (logout.fulfilled.match(resultAction)) {
+      navigate("/");
+    } else {
+      console.error("Logout failed", resultAction);
+    }
   };
+
   return (
     <aside className="bg-white rounded-xl shadow-md border border-gray-200 p-6 space-y-6 w-full lg:w-[280px] self-start">
       <ul className="space-y-2 text-sm">
@@ -40,11 +51,14 @@ export default function Sidebar({ upperMenu, lowerMenu }: SidebarProps) {
           <li
             key={item.name}
             onClick={() => {
-              handleNavigation(item.path);
-              if (item.path == "/") handleLogout();
+              if (item.name === "Logout") {
+                handleLogout();
+              } else {
+                handleNavigation(item.path);
+              }
             }}
             className={`flex items-center gap-3 px-4 py-2 rounded-lg cursor-pointer transition-all duration-200 ${
-              activePath === item.path
+              activePath === item.path && item.name !== "Logout"
                 ? "bg-green-100 text-green-700 font-semibold"
                 : "hover:bg-gray-100 text-gray-700"
             }`}
@@ -62,9 +76,15 @@ export default function Sidebar({ upperMenu, lowerMenu }: SidebarProps) {
         {lowerMenu.map((item) => (
           <li
             key={item.name}
-            onClick={() => handleNavigation(item.path)}
+            onClick={() => {
+              if (item.name === "Logout") {
+                handleLogout();
+              } else {
+                handleNavigation(item.path);
+              }
+            }}
             className={`flex items-center gap-3 px-4 py-2 rounded-lg cursor-pointer transition-all duration-200 ${
-              activePath === item.path
+              activePath === item.path && item.name !== "Logout"
                 ? "bg-green-100 text-green-700 font-semibold"
                 : "hover:bg-gray-100 text-gray-700"
             }`}

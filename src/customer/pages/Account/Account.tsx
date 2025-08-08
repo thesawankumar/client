@@ -1,7 +1,9 @@
-import { Divider } from "@mui/material";
-import {  Outlet } from "react-router-dom";
+// src/pages/account/Account.tsx (or wherever Account component is)
 
-import Sidebar from "../../../components/Sidebar"; // ✅ Adjust path based on your project
+import { Divider } from "@mui/material";
+import { Outlet } from "react-router-dom";
+
+import Sidebar from "../../../components/Sidebar"; // Adjust path
 import {
   AccountCircle,
   CreditCard,
@@ -17,7 +19,7 @@ const upperMenu = [
   { name: "Orders", path: "/account/orders", icon: <ShoppingBag /> },
 ];
 
-const lowerMenu = [{ name: "Logout", path: "/", icon: <Logout /> }];
+const lowerMenu = [{ name: "Logout", path: "/logout", icon: <Logout /> }];
 
 export default function Account() {
   return (
@@ -33,10 +35,10 @@ export default function Account() {
 
       {/* Layout */}
       <div className="flex flex-col lg:flex-row gap-6 py-6 items-start">
-        {/* ✅ Reusable Sidebar */}
+        {/* Sidebar */}
         <Sidebar upperMenu={upperMenu} lowerMenu={lowerMenu} />
 
-        {/* Right Content */}
+        {/* Main Content */}
         <section className="flex-1 bg-white rounded-xl shadow-md border border-gray-200 p-3">
           <Outlet />
         </section>

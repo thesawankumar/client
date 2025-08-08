@@ -2,8 +2,7 @@ import { ThemeProvider } from "@mui/material";
 import "./App.css";
 import Navbar from "./customer/components/Navbar/Navbar";
 import customTheme from "./Theme/customTheme";
-import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+
 import { Route, Routes, useNavigate } from "react-router-dom";
 import Home from "./customer/pages/Home/Home";
 import Product from "./customer/pages/Product/Product";
@@ -37,10 +36,14 @@ import SellerTable from "./admin/pages/Seller/SellerTable";
 import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "./redux/store";
 import { fetchSellerProfile } from "./redux/seller/actions/sellerAction";
+import { fetchUserProfile } from "./redux/auth/AuthAction";
+import Auth from "./customer/pages/Auth/Auth";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
   const dispatch = useAppDispatch();
-  const { seller } = useAppSelector((store) => store);
+  const { seller, auth } = useAppSelector((store) => store);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -53,9 +56,18 @@ function App() {
     }
   }, [seller.profile]);
 
+  useEffect(() => {
+    dispatch(
+      fetchUserProfile({ jwt: auth.jwt || localStorage.getItem("user-jwt") })
+    );
+  }, [auth.jwt]);
+
   return (
     <ThemeProvider theme={customTheme}>
-      <ToastContainer autoClose={1000} />
+      <ToastContainer
+        position="top-right" // ya bottom-right, top-left, bottom-left, etc.
+        autoClose={500} // milliseconds me auto close time
+      />
       <div>
         <Navbar />
         <Routes>
@@ -68,6 +80,7 @@ function App() {
           />
           <Route path="/cart" element={<Cart />} />
           <Route path="/checkout" element={<Checkout />} />
+          <Route path="/auth" element={<Auth />} />
 
           {/* Account Routes */}
           <Route path="/account" element={<Account />}>

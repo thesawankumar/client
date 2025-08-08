@@ -13,6 +13,7 @@ import { mainCategories } from "../../../data/category/MainCategory";
 import CategorySheet from "./CategorySheet";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAppSelector } from "../../../redux/store";
 
 export default function Navbar() {
   const data = mainCategories;
@@ -21,6 +22,8 @@ export default function Navbar() {
   const [selectedCategory, setSelectedCategory] = useState("men");
   const [showCategorySheet, setShowCategorySheet] = useState(false);
   const navigate = useNavigate();
+  const { user } = useAppSelector((store) => store.auth);
+
   return (
     <div>
       <Box className="sticky top-0 right-0 left-0 bg-white" sx={{ zIndex: 2 }}>
@@ -61,17 +64,23 @@ export default function Navbar() {
             <IconButton>
               <SearchIcon className="text-gray-600" />
             </IconButton>
-            {false ? (
+            {user ? (
               <Button
                 onClick={() => navigate("/account/profile")}
                 className="flex items-center gap-2"
                 color="primary"
               >
                 <Avatar sx={{ width: 28, height: 28 }} />
-                <h1 className="font-semibold hidden lg:block">Sawan</h1>
+                <h1 className="font-semibold hidden lg:block">
+                  {user?.fullName}
+                </h1>
               </Button>
             ) : (
-              <Button color="primary" variant="outlined">
+              <Button
+                onClick={() => navigate("/auth")}
+                color="primary"
+                variant="outlined"
+              >
                 Login
               </Button>
             )}
