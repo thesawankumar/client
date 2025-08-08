@@ -6,10 +6,12 @@ import {
 } from "react-redux";
 import sellerSlice from "./seller/slices/sellerSlice";
 import sellerProductSlice from "./seller/slices/sellerProductSlice";
+import productSlice from "./customer/slices/customerProductSlice";
 const rootReducer = combineReducers({
   // your reducers here
   seller: sellerSlice,
   sellerProduct: sellerProductSlice,
+  product: productSlice,
 });
 
 export const store = configureStore({

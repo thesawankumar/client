@@ -14,6 +14,7 @@ export const fetchSellerProfile = createAsyncThunk(
       return response.data;
     } catch (error) {
       console.error("Error in Fetch Seller Profile", error);
+      rejectWithValue(error)
     }
   }
 );
@@ -29,6 +30,7 @@ export const sellerLogin = createAsyncThunk<any, any>(
       return response.data;
     } catch (error) {
       console.error("Error->  SIGN IN", error);
+      rejectWithValue(error)
     }
   }
 );

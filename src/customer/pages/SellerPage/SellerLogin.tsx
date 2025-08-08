@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useAppDispatch } from "../../../redux/store";
-import { sendLoginOtp } from "../../../redux/seller/slices/AuthSlice";
+import { sendLoginOtp } from "../../../redux/AuthSlice";
 import { sellerLogin } from "../../../redux/seller/actions/sellerAction";
 
 export default function SellerLogin() {

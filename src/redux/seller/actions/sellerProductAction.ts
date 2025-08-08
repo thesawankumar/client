@@ -20,6 +20,7 @@ export const fetchSellerProduct = createAsyncThunk<Product[], any>(
         "Error--> Something Went Wrong in Seller Fetch Product",
         error
       );
+      rejectWithValue(error);
     }
   }
 );
@@ -39,5 +40,6 @@ export const createProduct = createAsyncThunk<
     return response.data;
   } catch (error) {
     console.log("Error-> Create Product", error);
+    rejectWithValue(error);
   }
 });

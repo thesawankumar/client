@@ -1,7 +1,5 @@
-
-
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { api } from "../../../config/Api";
+import { api } from "../config/Api";
 
 export const sendLoginOtp = createAsyncThunk(
   "auth/sendLoginOtp",
@@ -32,6 +30,20 @@ export const signin = createAsyncThunk<any, any>(
       return response.data;
     } catch (error) {
       console.error("Error->  SIGN IN", error);
+            rejectWithValue(error)
+    }
+  }
+);
+export const logout = createAsyncThunk<any, any>(
+  "/auth/logout",
+  async (navigate, { rejectWithValue }) => {
+    try {
+      localStorage.removeItem("jwt");
+      console.log("Logout Success");
+      navigate("/");
+    } catch (error) {
+      console.error("Error-> LOGOUT ERROR", error);
+      rejectWithValue(error)
     }
   }
 );

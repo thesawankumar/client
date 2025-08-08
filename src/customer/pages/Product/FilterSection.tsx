@@ -7,7 +7,7 @@ import {
   Radio,
   RadioGroup,
 } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { colors } from "../../../data/Filter/color";
 import { priceRanges } from "../../../data/Filter/price";
 import { discounts } from "../../../data/Filter/discount";
@@ -17,23 +17,36 @@ export default function FilterSection() {
   const [selectedColor, setSelectedColor] = useState("");
   const [showAllColors, setShowAllColors] = useState(false);
 
+  const [selectedPrice, setSelectedPrice] = useState("");
+  const [showAllPrice, setShowAllPrices] = useState(false);
+
+  const [selectedDiscount, setSelectedDiscount] = useState("");
+  const [showAllDiscounts, setShowAllDiscounts] = useState(false);
+
+  const [searchParams, setSearchParams] = useSearchParams();
+
   const visibleCount = showAllColors ? colors.length : 4;
   const visibleColors = colors.slice(0, visibleCount);
   const remaining = colors.length - visibleCount;
 
-  const [selectedPrice, setSelectedPrice] = useState("");
-  const [showAllPrice, setShowAllPrices] = useState(false);
-
   const visiblePriceCount = showAllPrice ? priceRanges.length : 2;
   const visiblePrices = priceRanges.slice(0, visiblePriceCount);
   const remainingPrices = priceRanges.length - visiblePriceCount;
-  const [selectedDiscount, setSelectedDiscount] = useState("");
-  const [showAllDiscounts, setShowAllDiscounts] = useState(false);
 
   const visibleDiscountCount = showAllDiscounts ? discounts.length : 4;
   const visibleDiscounts = discounts.slice(0, visibleDiscountCount);
   const hiddenDiscountCount = discounts.length - visibleDiscountCount;
-  const [searchParams, setSearchParams] = useSearchParams();
+
+  // ✅ Load from URL on mount
+  useEffect(() => {
+    const color = searchParams.get("color") || "";
+    const price = searchParams.get("price") || "";
+    const discount = searchParams.get("discount") || "";
+
+    setSelectedColor(color);
+    setSelectedPrice(price);
+    setSelectedDiscount(discount);
+  }, [searchParams]);
 
   const updateFilterParams = (e: any) => {
     const { value, name } = e.target;
@@ -44,6 +57,7 @@ export default function FilterSection() {
     }
     setSearchParams(searchParams);
   };
+
   const clearAllFilters = () => {
     setSelectedColor("");
     setSelectedPrice("");
@@ -95,11 +109,11 @@ export default function FilterSection() {
             {visibleColors.map((item) => (
               <FormControlLabel
                 key={item.name}
-                value={item.hex}
+                value={item.name}
                 control={
                   <Radio
                     sx={{
-                      color: "#ccc", // unselected radios in gray
+                      color: "#ccc",
                       "&.Mui-checked": {
                         color: selectedColor === item.hex ? item.hex : "#ccc",
                       },
@@ -119,7 +133,6 @@ export default function FilterSection() {
             ))}
           </RadioGroup>
 
-          {/* Toggle Button */}
           {colors.length > 4 && (
             <Button
               onClick={() => setShowAllColors(!showAllColors)}
@@ -135,6 +148,7 @@ export default function FilterSection() {
           )}
         </FormControl>
       </section>
+
       {/* Price Filter */}
       <section>
         <FormControl>
@@ -160,7 +174,6 @@ export default function FilterSection() {
             ))}
           </RadioGroup>
 
-          {/* Show More / Show Less */}
           {priceRanges.length > 2 && (
             <Button
               onClick={() => setShowAllPrices(!showAllPrice)}
@@ -176,6 +189,7 @@ export default function FilterSection() {
           )}
         </FormControl>
       </section>
+
       {/* Discount Filter */}
       <section>
         <FormControl>
@@ -221,5 +235,3 @@ export default function FilterSection() {
     </div>
   );
 }
-
-//discount
