@@ -1,6 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { fetchSellerProfile } from "../actions/sellerAction";
-import { logout } from "../../auth/AuthAction";
 
 interface SellerState {
   seller: any[];

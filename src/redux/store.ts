@@ -8,12 +8,14 @@ import sellerSlice from "./seller/slices/sellerSlice";
 import sellerProductSlice from "./seller/slices/sellerProductSlice";
 import productSlice from "./customer/slices/customerProductSlice";
 import authSlice from "./auth/AuthSlice";
+import cartSlice from "../redux/customer/slices/cartSlice";
 const rootReducer = combineReducers({
   // your reducers here
   seller: sellerSlice,
   sellerProduct: sellerProductSlice,
   product: productSlice,
   auth: authSlice,
+  cart: cartSlice,
 });
 
 export const store = configureStore({
