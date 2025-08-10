@@ -6,8 +6,9 @@ import * as Yup from "yup";
 const initialValues = {
   name: "",
   mobile: "",
-  pincode: "",
+  pinCode: "",
   houseNo: "",
+  address: "",
   locality: "",
   city: "",
   state: "",
@@ -68,7 +69,7 @@ export default function AddressForm({ onClose }: { onClose?: () => void }) {
       validationSchema={validationSchema}
       onSubmit={(values) => {
         console.log("Address Submitted:", values);
-        if (onClose) onClose(); // Close modal if callback exists
+        if (onClose) onClose();
       }}
     >
       <Form className="relative bg-white p-6 rounded-2xl w-[400px] max-w-xl mx-auto space-y-6 shadow-lg">
