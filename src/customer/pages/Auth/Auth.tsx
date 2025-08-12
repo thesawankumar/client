@@ -99,7 +99,7 @@ export default function Auth() {
   return (
     <>
       <div className="flex justify-center items-center min-h-screen bg-gray-100">
-        <div className="w-[360px] bg-white p-6 rounded-2xl shadow-lg">
+        <div className="w-full max-w-[360px] bg-white p-6 rounded-2xl shadow-lg">
           {/* Tab Switch */}
           <div className="flex mb-6 relative">
             <button
@@ -150,9 +150,10 @@ export default function Auth() {
               )}
             </div>
             {/* OTP Fields */}
+            {/* OTP Fields */}
             {otpSent && (
               <>
-                <div className="flex justify-between">
+                <div className="flex flex-wrap justify-center gap-2">
                   {otpValues.map((digit, idx) => (
                     <input
                       key={idx}
@@ -163,17 +164,18 @@ export default function Auth() {
                         otpRefs.current[idx] = el;
                       }}
                       onChange={(e) => handleOtpChange(idx, e.target.value)}
-                      className="w-12 h-12 text-center border rounded-lg text-lg font-medium outline-none focus:ring-2 focus:ring-blue-500"
+                      className="w-8 sm:w-10 h-8 sm:h-10 text-center border rounded-lg text-lg font-medium outline-none focus:ring-2 focus:ring-blue-500"
                     />
                   ))}
                 </div>
                 {formik.errors.otp && (
-                  <p className="text-red-500 text-xs mt-1">
+                  <p className="text-red-500 text-xs mt-1 text-center">
                     {formik.errors.otp}
                   </p>
                 )}
               </>
             )}
+
             {otpSent && !isLogin && (
               <div className="mt-4">
                 <input

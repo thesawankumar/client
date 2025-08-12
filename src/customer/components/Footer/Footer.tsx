@@ -1,10 +1,11 @@
 import FacebookIcon from "@mui/icons-material/Facebook";
 import InstagramIcon from "@mui/icons-material/Instagram";
 import YouTubeIcon from "@mui/icons-material/YouTube";
+
 export default function Footer() {
   return (
     <footer className="bg-gray-100 text-gray-800 py-10">
-      <div className="max-w-7xl mx-auto px-4 grid grid-cols-1 md:grid-cols-4 gap-8">
+      <div className="max-w-7xl mx-auto px-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
         {/* Brand Info */}
         <div>
           <h1 className="font-bold text-lg mb-4">SnapBuy</h1>
@@ -66,14 +67,19 @@ export default function Footer() {
             placeholder="Enter your email"
             className="w-full border border-black px-3 py-2 mb-3 text-sm rounded focus:outline-none"
           />
-          <label className="flex items-center mb-4 text-sm">
-            <input type="checkbox" className="mr-2" />
+          <label className="flex items-start mb-4 text-sm">
+            <input type="checkbox" className="mr-2 mt-1" />
             Yes, Subscribe me to your newsletter.
           </label>
-          <button className="bg-black text-white px-5 py-2 text-sm rounded hover:bg-gray-800 transition">
+          <button className="bg-black text-white px-5 py-2 text-sm rounded hover:bg-gray-800 transition w-full sm:w-auto">
             Subscribe
           </button>
         </div>
+      </div>
+
+      {/* Bottom note */}
+      <div className="mt-10 border-t border-gray-300 pt-4 text-center text-xs text-gray-500">
+        © {new Date().getFullYear()} SnapBuy. All rights reserved.
       </div>
     </footer>
   );

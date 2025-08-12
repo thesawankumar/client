@@ -73,9 +73,7 @@ export const logout = createAsyncThunk(
   "/auth/logout",
   async (_, { rejectWithValue }) => {
     try {
-      console.log("Before removing JWT:", localStorage.getItem("user-jwt")); // debug
       localStorage.removeItem("user-jwt");
-      console.log("After removing JWT:", localStorage.getItem("user-jwt")); // debug
       return { success: true };
     } catch (error) {
       console.error("Error-> LOGOUT ERROR", error);

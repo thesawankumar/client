@@ -46,7 +46,7 @@ export default function Step4() {
             value={formik.values.businessName}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
-            className={` px-3 py-2 border rounded text-sm focus:outline-none ${
+            className={`w-full px-3 py-2 border rounded text-sm focus:outline-none ${
               formik.touched.businessName && formik.errors.businessName
                 ? "border-red-500"
                 : "border-gray-300"
