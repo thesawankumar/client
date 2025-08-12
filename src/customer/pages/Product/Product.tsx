@@ -28,6 +28,7 @@ export default function Product() {
   const [searchParams] = useSearchParams();
   const { categoryId } = useParams();
   const { totalPages } = useAppSelector((store) => store.product);
+
   const handleSortChange = (event: any) => {
     setSort(event.target.value);
   };
@@ -35,6 +36,7 @@ export default function Product() {
   const handlePageChange = (_: any, value: number) => {
     setPage(value);
   };
+
   useEffect(() => {
     const priceValue = searchParams.get("price");
     const color = searchParams.get("color");
@@ -70,17 +72,16 @@ export default function Product() {
       filters.sort = "price_high";
     }
 
-    console.log("Dispatch filters:", filters); // Debug log
     dispatch(fetchAllProduct(filters));
   }, [searchParams, sort, page, categoryId, dispatch]);
 
   return (
-    <div className="mt-6 px-4 mb-5 md:px-10 lg:px-20">
-      <div className="text-3xl md:text-4xl text-center font-bold text-gray-700 mb-8">
+    <div className="mt-6 px-4 sm:px-6 lg:px-20 mb-5">
+      <div className="text-2xl sm:text-3xl md:text-4xl text-center font-bold text-gray-700 mb-8">
         Women Sarees
       </div>
 
-      <div className="flex flex-col lg:flex-row gap-8">
+      <div className="flex flex-col lg:flex-row gap-6 lg:gap-8">
         {isLargeScreen && (
           <aside className="w-full lg:w-[22%] bg-white rounded-xl shadow-md p-4">
             <FilterSection />
@@ -88,19 +89,19 @@ export default function Product() {
         )}
 
         <main className="w-full lg:w-[78%] space-y-6">
-          <div className="flex justify-between items-center gap-4">
+          <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
             {!isLargeScreen && (
-              <div className="lg:hidden">
+              <div className="w-full sm:w-auto">
                 <IconButton color="primary">
                   <FilterAlt />
                 </IconButton>
-                <Box className="mt-2">
+                <Box className="mt-2 sm:mt-0">
                   <FilterSection />
                 </Box>
               </div>
             )}
 
-            <div className="w-full md:w-1/2 lg:w-1/4 ml-auto">
+            <div className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 ml-auto">
               <FormControl fullWidth size="small">
                 <InputLabel>Sort</InputLabel>
                 <Select value={sort} onChange={handleSortChange} label="Sort">

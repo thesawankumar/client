@@ -47,7 +47,7 @@ const products = [
     discountPercent: Math.round(((999 - 699) / 999) * 100),
   },
   {
-    id: 4,
+    id: 5,
     images: [skirt1, skirt2],
     name: "Trendy Skirt",
     description: "Soft Crepe | Elastic Waist",
@@ -56,7 +56,7 @@ const products = [
     discountPercent: Math.round(((999 - 699) / 999) * 100),
   },
   {
-    id: 4,
+    id: 6,
     images: [skirt1, skirt2],
     name: "Trendy Skirt",
     description: "Soft Crepe | Elastic Waist",
@@ -65,7 +65,7 @@ const products = [
     discountPercent: Math.round(((999 - 699) / 999) * 100),
   },
   {
-    id: 4,
+    id: 7,
     images: [skirt1, skirt2],
     name: "Trendy Skirt",
     description: "Soft Crepe | Elastic Waist",
@@ -74,7 +74,7 @@ const products = [
     discountPercent: Math.round(((999 - 699) / 999) * 100),
   },
   {
-    id: 4,
+    id: 8,
     images: [skirt1, skirt2],
     name: "Trendy Skirt",
     description: "Soft Crepe | Elastic Waist",

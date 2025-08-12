@@ -64,10 +64,7 @@ function App() {
 
   return (
     <ThemeProvider theme={customTheme}>
-      <ToastContainer
-        position="top-right" // ya bottom-right, top-left, bottom-left, etc.
-        autoClose={500} // milliseconds me auto close time
-      />
+      <ToastContainer position="top-right" autoClose={500} />
       <div>
         <Navbar />
         <Routes>

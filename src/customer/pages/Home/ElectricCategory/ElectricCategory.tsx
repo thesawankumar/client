@@ -7,7 +7,6 @@ import headphone from "../../../../images/headphone.jpg";
 import speaker from "../../../../images/speaker.jpg";
 import ElectricCategoryCard from "./ElectricCategoryCard";
 
-
 type Category = {
   name: string;
   image: string;
@@ -25,7 +24,7 @@ const categories: Category[] = [
 
 export default function ElectricCategory() {
   return (
-    <div className="flex flex-wrap justify-between py-5 lg:px-20 border-b border-gray-300">
+    <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-7 gap-4 py-5 px-4 sm:px-10 lg:px-20 border-b border-gray-300">
       {categories.map((item) => (
         <ElectricCategoryCard
           key={item.name}

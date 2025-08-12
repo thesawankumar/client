@@ -37,7 +37,6 @@ export default function FilterSection() {
   const visibleDiscounts = discounts.slice(0, visibleDiscountCount);
   const hiddenDiscountCount = discounts.length - visibleDiscountCount;
 
-  // ✅ Load from URL on mount
   useEffect(() => {
     const color = searchParams.get("color") || "";
     const price = searchParams.get("price") || "";
@@ -71,10 +70,11 @@ export default function FilterSection() {
   };
 
   return (
-    <div className="space-y-5 bg-white shadow-md rounded-lg border p-4">
-      {/* Header */}
-      <div className="flex items-center justify-between">
-        <p className="text-xl font-semibold text-gray-800">Filters</p>
+    <div className="space-y-5 bg-white shadow-md rounded-lg border border-gray-200 p-4 w-full">
+      <div className="flex items-center justify-between flex-wrap gap-2">
+        <p className="text-lg sm:text-xl font-semibold text-gray-800">
+          Filters
+        </p>
         <Button
           variant="outlined"
           size="small"
@@ -110,16 +110,7 @@ export default function FilterSection() {
               <FormControlLabel
                 key={item.name}
                 value={item.name}
-                control={
-                  <Radio
-                    sx={{
-                      color: "#ccc",
-                      "&.Mui-checked": {
-                        color: selectedColor === item.hex ? item.hex : "#ccc",
-                      },
-                    }}
-                  />
-                }
+                control={<Radio size="small" />}
                 label={
                   <div className="flex items-center gap-2">
                     <span
@@ -137,11 +128,7 @@ export default function FilterSection() {
             <Button
               onClick={() => setShowAllColors(!showAllColors)}
               size="small"
-              sx={{
-                textTransform: "none",
-                mt: 1,
-                fontSize: "0.875rem",
-              }}
+              sx={{ textTransform: "none", mt: 1, fontSize: "0.875rem" }}
             >
               {showAllColors ? "Show Less" : `Show ${remaining} More`}
             </Button>
@@ -178,11 +165,7 @@ export default function FilterSection() {
             <Button
               onClick={() => setShowAllPrices(!showAllPrice)}
               size="small"
-              sx={{
-                textTransform: "none",
-                mt: 1,
-                fontSize: "0.875rem",
-              }}
+              sx={{ textTransform: "none", mt: 1, fontSize: "0.875rem" }}
             >
               {showAllPrice ? "Show Less" : `Show ${remainingPrices} More`}
             </Button>
@@ -219,11 +202,7 @@ export default function FilterSection() {
             <Button
               onClick={() => setShowAllDiscounts((prev) => !prev)}
               size="small"
-              sx={{
-                textTransform: "none",
-                mt: 1,
-                fontSize: "0.875rem",
-              }}
+              sx={{ textTransform: "none", mt: 1, fontSize: "0.875rem" }}
             >
               {showAllDiscounts
                 ? "Show Less"

@@ -7,7 +7,6 @@ import {
   updateCartItem,
   deleteCartItem,
 } from "../../../redux/customer/actions/cartAction";
-
 export default function CartItem({ item }: { item: CartItem }) {
   const dispatch = useAppDispatch();
 
@@ -35,7 +34,8 @@ export default function CartItem({ item }: { item: CartItem }) {
 
   return (
     <div className="flex flex-col sm:flex-row gap-4 border border-gray-400 rounded-lg p-4 relative">
-      <div className="w-24 h-28 flex-shrink-0">
+      {/* Product Image */}
+      <div className="w-full  sm:w-24 h-28 flex-shrink-0 mx-auto sm:mx-0">
         <img
           src={item.product.images[0]}
           alt={item.product.title}
@@ -43,9 +43,12 @@ export default function CartItem({ item }: { item: CartItem }) {
         />
       </div>
 
+      {/* Product Info */}
       <div className="flex-grow">
         <h2 className="font-semibold text-lg">{item.product.title}</h2>
-        <p className="text-sm text-gray-700">{item.product.description}</p>
+        <p className="text-sm text-gray-700 line-clamp-2">
+          {item.product.description}
+        </p>
         <p className="text-xs text-gray-500 mt-1">
           <span className="font-medium">Sold by:</span>{" "}
           {item.product.seller?.businessDetails.businessName}
@@ -55,18 +58,19 @@ export default function CartItem({ item }: { item: CartItem }) {
           <span className="text-gray-500">available</span>
         </p>
 
-        <div className="flex py-2 justify-between items-center mt-4">
+        {/* Quantity & Price */}
+        <div className="flex flex-wrap justify-between items-center mt-4 gap-3">
           <div className="flex items-center gap-3">
             <button
               onClick={() => handleQty(-1)}
-              className="text-gray-600 border text-center rounded-2xl hover:bg-gray-100"
+              className="text-gray-600 border rounded-2xl p-1 hover:bg-gray-100"
             >
               <RemoveIcon fontSize="small" />
             </button>
             <span className="text-sm font-medium">{item.quantity}</span>
             <button
               onClick={() => handleQty(1)}
-              className="text-gray-600 border text-center rounded-2xl hover:bg-gray-100"
+              className="text-gray-600 border rounded-2xl p-1 hover:bg-gray-100"
             >
               <AddIcon fontSize="small" />
             </button>
@@ -77,7 +81,8 @@ export default function CartItem({ item }: { item: CartItem }) {
         </div>
       </div>
 
-      <div className="absolute top-2 right-2 flex flex-col items-end">
+      {/* Remove Button */}
+      <div className="absolute top-2 right-2">
         <button
           className="text-gray-500 hover:text-red-500"
           onClick={handleRemove}
