@@ -41,6 +41,7 @@ import Auth from "./customer/pages/Auth/Auth";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import PaymentSuccess from "./customer/pages/Payment/PaymentSuccess";
+import Wishlist from "./customer/pages/Wishlist/Wishlist";
 
 function App() {
   const dispatch = useAppDispatch();
@@ -77,6 +78,7 @@ function App() {
             element={<ProductDetails />}
           />
           <Route path="/cart" element={<Cart />} />
+          <Route path="/wishlist" element={<Wishlist />} />
           <Route path="/checkout" element={<Checkout />} />
           <Route
             path="/payment-success/:orderId"

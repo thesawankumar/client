@@ -10,6 +10,8 @@ import productSlice from "./customer/slices/customerProductSlice";
 import authSlice from "./auth/AuthSlice";
 import cartSlice from "../redux/customer/slices/cartSlice";
 import orderSlice from "../redux/customer/slices/orderSlice";
+import wishlistSlice from "../redux/customer/slices/wishlistSlice";
+
 const rootReducer = combineReducers({
   // your reducers here
   seller: sellerSlice,
@@ -18,6 +20,7 @@ const rootReducer = combineReducers({
   auth: authSlice,
   cart: cartSlice,
   order: orderSlice,
+  wishlist: wishlistSlice,
 });
 
 export const store = configureStore({

@@ -1,12 +1,27 @@
 import { useState } from "react";
 import { ChatBubble, Favorite } from "@mui/icons-material";
-import { useAppSelector } from "../../../redux/store";
+import { useAppDispatch, useAppSelector } from "../../../redux/store";
 import { useNavigate } from "react-router-dom";
+import { addProductToWishlist } from "../../../redux/customer/actions/wishlistAction";
 
 export default function ProductCard() {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
-  const { product } = useAppSelector((store) => store);
+  const { product, wishlist } = useAppSelector((store) => store);
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+
+  const handleWishlist = (
+    e: React.MouseEvent<SVGSVGElement, MouseEvent>,
+    productId: number
+  ) => {
+    e.stopPropagation();
+    dispatch(addProductToWishlist({ productId }));
+  };
+
+  // Check if a product is in the wishlist
+  const isInWishlist = (id: number) => {
+    return wishlist?.wishlist?.products?.some((item: any) => item.id === id);
+  };
 
   return (
     <section className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
@@ -24,6 +39,7 @@ export default function ProductCard() {
           }
           className="group bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-shadow duration-300 cursor-pointer"
         >
+          {/* Image Slider */}
           <div className="relative w-full h-56 sm:h-64 overflow-hidden">
             <div
               className="flex h-full transition-transform duration-500 ease-in-out"
@@ -46,19 +62,30 @@ export default function ProductCard() {
             </div>
           </div>
 
+          {/* Product Details */}
           <div className="p-4 space-y-2">
             <div className="flex justify-between items-start gap-2">
               <h3 className="text-base sm:text-lg font-semibold text-gray-800 hover:text-indigo-600 transition-colors line-clamp-2">
                 {p.title}
               </h3>
               <div className="flex flex-col space-y-1 text-gray-500">
-                <Favorite fontSize="small" className="cursor-pointer" />
+                <Favorite
+                  onClick={(e) => p.id !== undefined && handleWishlist(e, p.id)}
+                  fontSize="small"
+                  className={`cursor-pointer transition-colors ${
+                    p.id !== undefined && isInWishlist(p.id)
+                      ? "text-red-500"
+                      : "text-gray-500"
+                  }`}
+                />
                 <ChatBubble fontSize="small" className="cursor-pointer" />
               </div>
             </div>
+
             <p className="text-gray-500 text-sm line-clamp-2">
               {p.description}
             </p>
+
             <div className="flex flex-wrap justify-between items-center pt-2 gap-2">
               <span className="text-sm text-gray-400 line-through">
                 ₹{p.mrpPrice}
