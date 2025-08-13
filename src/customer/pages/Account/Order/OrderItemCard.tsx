@@ -1,5 +1,6 @@
 import Chip from "@mui/material/Chip";
 import type { Order, OrderItem } from "../../../../types/orderTypes";
+import { useNavigate } from "react-router-dom";
 
 export default function OrderItemCard({
   item,
@@ -8,6 +9,7 @@ export default function OrderItemCard({
   item: OrderItem;
   order: Order;
 }) {
+  const navigate = useNavigate();
   if (!item) return null;
 
   const getStatusColor = () => {
@@ -28,7 +30,10 @@ export default function OrderItemCard({
   const statusColor = getStatusColor();
 
   return (
-    <div className="bg-white border border-gray-200 rounded-xl p-4 mt-4 space-y-4 shadow-sm">
+    <div
+      onClick={() => navigate(`/account/orders/${order.id}/${item.id}`)}
+      className="bg-white border border-gray-200 rounded-xl p-4 mt-4 space-y-4 shadow-sm"
+    >
       {/* Order Status */}
       <div className="flex items-center justify-between">
         <div className="flex items-center space-x-2">

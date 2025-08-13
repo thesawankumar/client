@@ -1,6 +1,5 @@
 import { CheckCircle } from "@mui/icons-material";
 import {
-  useSearchParams,
   useParams,
   Link,
   useNavigate,

@@ -21,13 +21,14 @@ const validationSchema = Yup.object({
   mobile: Yup.string()
     .matches(/^[0-9]{10}$/, "Enter valid 10-digit mobile")
     .required("Mobile is required"),
-  pincode: Yup.string()
+  pinCode: Yup.string()
     .matches(/^[0-9]{6}$/, "Enter valid 6-digit pincode")
     .required("Pincode is required"),
   houseNo: Yup.string().required("House No. / Building is required"),
   locality: Yup.string().required("Locality / Town is required"),
   city: Yup.string().required("City is required"),
   state: Yup.string().required("State is required"),
+  address: Yup.string().required("Address is required"), // ✅ now validated
 });
 
 const FloatingInput = ({
@@ -105,11 +106,12 @@ export default function AddressForm({
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <FloatingInput name="name" label="Full Name" />
           <FloatingInput name="mobile" label="Mobile Number" />
-          <FloatingInput name="pincode" label="Pincode" />
+          <FloatingInput name="pinCode" label="Pincode" />
           <FloatingInput name="houseNo" label="House No. / Building" />
           <FloatingInput name="locality" label="Locality / Town" />
           <FloatingInput name="city" label="City" />
           <FloatingInput name="state" label="State" />
+          <FloatingInput name="address" label="Address" />
         </div>
 
         <div className="text-center">
