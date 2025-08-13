@@ -2,6 +2,8 @@ import { Button, IconButton } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
+import { useAppDispatch } from "../../../redux/store";
+import { createOrder } from "../../../redux/customer/actions/orderAction";
 
 const initialValues = {
   name: "",
@@ -61,14 +63,27 @@ const FloatingInput = ({
     />
   </div>
 );
-
-export default function AddressForm({ onClose }: { onClose?: () => void }) {
+export default function AddressForm({
+  onClose,
+  paymentGateway,
+}: {
+  onClose?: () => void;
+  paymentGateway: any;
+}) {
+  const dispatch = useAppDispatch();
   return (
     <Formik
       initialValues={initialValues}
       validationSchema={validationSchema}
       onSubmit={(values) => {
         console.log("Address Submitted:", values);
+        dispatch(
+          createOrder({
+            address: values,
+            jwt: localStorage.getItem("user-jwt") || "",
+            paymentGateway,
+          })
+        );
         if (onClose) onClose();
       }}
     >

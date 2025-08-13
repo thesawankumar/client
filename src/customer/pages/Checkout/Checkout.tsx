@@ -6,6 +6,7 @@ import AddressCard from "./AddressCard";
 
 export default function Checkout() {
   const [open, setOpen] = useState(false);
+  const [paymentGateway, setPaymentGateway] = useState("RAZORPAY");
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -30,7 +31,6 @@ export default function Checkout() {
 
               <div className="space-y-4">
                 <AddressCard />
-                <AddressCard />
               </div>
 
               <Button
@@ -45,7 +45,10 @@ export default function Checkout() {
 
           {/* Pricing Summary */}
           <div className="bg-white p-4 rounded-2xl shadow-md w-[300px]">
-            <PaymentMethodCard />
+            <PaymentMethodCard
+              selectedGateway={paymentGateway}
+              setSelectedGateway={setPaymentGateway}
+            />
           </div>
         </div>
       </div>
@@ -53,7 +56,7 @@ export default function Checkout() {
       {/* Address Form Modal */}
       <Modal open={open} onClose={handleClose}>
         <Box className="mt-10">
-          <AddressForm onClose={handleClose} />
+          <AddressForm onClose={handleClose} paymentGateway={paymentGateway} />
         </Box>
       </Modal>
     </>

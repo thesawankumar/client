@@ -1,7 +1,16 @@
 import { Divider } from "@mui/material";
-import OrderItem from "./OrderItem";
-import dummyOrders from "../../../../data/order/order";
+import OrderItemCard from "./OrderItemCard";
+
+import { useAppDispatch, useAppSelector } from "../../../../redux/store";
+import { useEffect } from "react";
+import { fetchUserOrderHistory } from "../../../../redux/customer/actions/orderAction";
+
 export default function Order() {
+  const dispatch = useAppDispatch();
+  const { order } = useAppSelector((store) => store);
+  useEffect(() => {
+    dispatch(fetchUserOrderHistory(localStorage.getItem("user-jwt") || ""));
+  }, []);
   return (
     <div className="text-sm min-h-screen">
       <div>
@@ -10,9 +19,11 @@ export default function Order() {
       </div>
       <Divider className="border-gray-300" />
       <div className="pb-9">
-        {dummyOrders.map((order) => (
-          <OrderItem key={order.id} order={order} />
-        ))}
+        {order.orders.map((order) =>
+          order.orderItems.map((item) => (
+            <OrderItemCard  key={item.id} order={order} item={item} />
+          ))
+        )}
       </div>
     </div>
   );

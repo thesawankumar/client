@@ -105,7 +105,7 @@ export const fetchOrderItemById = createAsyncThunk<
 
 export const paymentSuccess = createAsyncThunk<
   any,
-  { paymentId: number; jwt: string; paymentLinkId: string },
+  { paymentId: string; jwt: string; paymentLinkId: string },
   { rejectValue: string }
 >(
   "order/paymentSuccess",

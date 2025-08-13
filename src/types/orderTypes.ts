@@ -33,6 +33,7 @@ export interface Order {
   orderId: string;
   user: User; // can replace with a proper User interface
   sellerId: number;
+  orderDate:string,
   orderItems: OrderItem[];
   shippingAddress: Address;
   paymentDetails: any;

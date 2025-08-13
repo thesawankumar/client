@@ -1,9 +1,14 @@
 import { Payment } from "@mui/icons-material";
 import { useState } from "react";
 
-export default function PaymentMethodCard() {
-  const [selectedGateway, setSelectedGateway] = useState("razorpay");
-  const handlePaymemtChange = (event: any) => {
+export default function PaymentMethodCard({
+  selectedGateway,
+  setSelectedGateway,
+}: {
+  selectedGateway: string;
+  setSelectedGateway: (val: string) => void;
+}) {
+  const handlePaymentChange = (event: any) => {
     setSelectedGateway(event.target.value);
   };
 
@@ -20,9 +25,9 @@ export default function PaymentMethodCard() {
           <input
             type="radio"
             name="gateway"
-            value="razorpay"
-            checked={selectedGateway === "razorpay"}
-            onChange={handlePaymemtChange}
+            value="RAZORPAY"
+            checked={selectedGateway === "RAZORPAY"}
+            onChange={handlePaymentChange}
           />
           Razorpay
         </label>
@@ -32,7 +37,7 @@ export default function PaymentMethodCard() {
             name="gateway"
             value="stripe"
             checked={selectedGateway === "stripe"}
-            onChange={handlePaymemtChange}
+            onChange={handlePaymentChange}
           />
           Stripe
         </label>

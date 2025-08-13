@@ -40,6 +40,7 @@ import { fetchUserProfile } from "./redux/auth/AuthAction";
 import Auth from "./customer/pages/Auth/Auth";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import PaymentSuccess from "./customer/pages/Payment/PaymentSuccess";
 
 function App() {
   const dispatch = useAppDispatch();
@@ -77,6 +78,10 @@ function App() {
           />
           <Route path="/cart" element={<Cart />} />
           <Route path="/checkout" element={<Checkout />} />
+          <Route
+            path="/payment-success/:orderId"
+            element={<PaymentSuccess />}
+          />
           <Route path="/auth" element={<Auth />} />
 
           {/* Account Routes */}
