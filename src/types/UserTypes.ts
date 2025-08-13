@@ -8,7 +8,12 @@ export interface Address {
   pinCode: string;
   mobile: string;
 }
-export type UserRole = "ROLE_CUSTOMER" | "ROLE_ADMIN" | "ROLE_SELLER";
+export enum UserRole{
+  ROLE_CUSTOMER= "ROLE_CUSTOMER" ,
+  ROLE_ADMIN="ROLE_ADMIN",
+  ROLE_SELLER="ROLE_SELLER"
+
+}
 
 export interface User {
   id?: number;
