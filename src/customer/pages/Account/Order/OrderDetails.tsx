@@ -1,5 +1,4 @@
 import { useEffect } from "react";
-import watchImage from "../../../../images/smartwatch.jpg"; // image ka path project ke hisab se sahi karo
 import { useAppDispatch, useAppSelector } from "../../../../redux/store";
 import OrderStepper from "./OrderStepper";
 import { useParams } from "react-router-dom";
@@ -88,7 +87,7 @@ export default function OrderDetails() {
         <div className="flex items-center justify-between">
           <h3 className="font-semibold text-gray-800">Total Item Price</h3>
           <span className="font-medium text-gray-800">
-            {order.orderItem?.sellingPrice}
+            ₹{order.orderItem?.sellingPrice}
           </span>
         </div>
         <p className="text-sm text-green-600">

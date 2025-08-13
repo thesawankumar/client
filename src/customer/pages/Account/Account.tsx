@@ -11,6 +11,7 @@ import {
   ShoppingBag,
   Logout,
 } from "@mui/icons-material";
+import { useAppSelector } from "../../../redux/store";
 
 const upperMenu = [
   { name: "Profile", path: "/account/profile", icon: <AccountCircle /> },
@@ -22,12 +23,13 @@ const upperMenu = [
 const lowerMenu = [{ name: "Logout", path: "/logout", icon: <Logout /> }];
 
 export default function Account() {
+  const { auth } = useAppSelector((store) => store);
   return (
     <div className="px-5 lg:px-52 min-h-screen mt-10">
       {/* Header */}
       <div>
         <h1 className="text-2xl font-bold text-gray-800 pb-3">
-          Hello, Sawan 👋
+          Hello, {auth.user?.fullName}👋
         </h1>
       </div>
 

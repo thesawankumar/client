@@ -5,7 +5,7 @@ import { useAppSelector } from "../../../../redux/store";
 export default function UserDetails() {
   const { auth } = useAppSelector((store) => store);
 
-  if (!auth.user) return null; // handle no user case
+  if (!auth.user) return null;
 
   const { fullName, email, mobile } = auth.user;
 
