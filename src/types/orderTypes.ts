@@ -13,6 +13,8 @@ export interface OrderState {
 
 export enum OrderStatus {
   PENDING = "PENDING",
+  PLACED = "PLACED",
+  CONFIRMED = "CONFIRMED",
   SHIPPED = "SHIPPED",
   DELIVERED = "DELIVERED",
   CANCELLED = "CANCELLED",
@@ -33,7 +35,7 @@ export interface Order {
   orderId: string;
   user: User; // can replace with a proper User interface
   sellerId: number;
-  orderDate:string,
+  orderDate: string;
   orderItems: OrderItem[];
   shippingAddress: Address;
   paymentDetails: any;

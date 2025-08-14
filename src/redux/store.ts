@@ -5,12 +5,13 @@ import {
   type TypedUseSelectorHook,
 } from "react-redux";
 import sellerSlice from "./seller/slices/sellerSlice";
-import sellerProductSlice from "./seller/slices/sellerProductSlice";
+import sellerProductSlice from "./seller/slices/productSlice";
 import productSlice from "./customer/slices/customerProductSlice";
 import authSlice from "./auth/AuthSlice";
 import cartSlice from "../redux/customer/slices/cartSlice";
 import orderSlice from "../redux/customer/slices/orderSlice";
 import wishlistSlice from "../redux/customer/slices/wishlistSlice";
+import sellerOrderSlice from "../redux/seller/slices/orderSlice";
 
 const rootReducer = combineReducers({
   // your reducers here
@@ -21,6 +22,8 @@ const rootReducer = combineReducers({
   cart: cartSlice,
   order: orderSlice,
   wishlist: wishlistSlice,
+  //seller slcie
+  sellerOrder: sellerOrderSlice,
 });
 
 export const store = configureStore({

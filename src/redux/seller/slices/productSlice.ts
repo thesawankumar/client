@@ -1,9 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { Product } from "../../../types/ProductTypes";
-import {
-  createProduct,
-  fetchSellerProduct,
-} from "../actions/sellerProductAction";
+import { createProduct, fetchSellerProduct } from "../actions/productAction";
 
 //Product
 interface sellerProductState {

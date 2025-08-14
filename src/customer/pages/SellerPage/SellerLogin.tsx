@@ -4,10 +4,12 @@ import * as Yup from "yup";
 import { useAppDispatch } from "../../../redux/store";
 import { sendLoginOtp } from "../../../redux/auth/AuthAction";
 import { sellerLogin } from "../../../redux/seller/actions/sellerAction";
+import CircularProgress from "@mui/material/CircularProgress";
 
 export default function SellerLogin() {
   const [showOtp, setShowOtp] = useState(false);
   const [otpValues, setOtpValues] = useState<string[]>(Array(6).fill(""));
+  const [loading, setLoading] = useState(false); // ✅ Spinner state
   const otpRefs = useRef<(HTMLInputElement | null)[]>([]);
   const dispatch = useAppDispatch();
 
@@ -37,10 +39,12 @@ export default function SellerLogin() {
       formik.setTouched({ email: true });
       return;
     }
+    setLoading(true); // ✅ Start loading
     await dispatch(
       sendLoginOtp({ email: formik.values.email, role: "ROLE_SELLER" })
     );
     setShowOtp(true);
+    setLoading(false); // ✅ Stop loading
   };
 
   const handleOtpChange = (index: number, value: string) => {
@@ -69,7 +73,7 @@ export default function SellerLogin() {
             id="email"
             name="email"
             type="email"
-            disabled={showOtp}
+            disabled={showOtp || loading} // ✅ Disable during loading
             className={`border rounded px-3 py-2 text-sm focus:outline-none focus:ring-1 w-full ${
               formik.touched.email && formik.errors.email
                 ? "border-red-500 focus:ring-red-300"
@@ -96,7 +100,7 @@ export default function SellerLogin() {
                   type="text"
                   inputMode="numeric"
                   maxLength={1}
-                  className="w-10 h-12 sm:w-12 sm:h-14 border border-gray-400 text-center text-lg rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
+                  className="w-8 sm:w-10 h-8 sm:h-10 border border-gray-400 text-center text-lg rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
                   value={digit}
                   onChange={(e) => handleOtpChange(index, e.target.value)}
                   ref={(el) => {
@@ -116,9 +120,14 @@ export default function SellerLogin() {
           <button
             type="button"
             onClick={sendOtpHandler}
-            className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-md text-sm font-medium transition"
+            disabled={loading} // ✅ Disable button during loading
+            className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-md text-sm font-medium transition flex justify-center items-center"
           >
-            Send OTP
+            {loading ? (
+              <CircularProgress size={20} color="inherit" />
+            ) : (
+              "Send OTP"
+            )}
           </button>
         ) : (
           <button

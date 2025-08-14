@@ -16,7 +16,7 @@ import { womenLevelTwoCategories } from "../../../data/category/levelTwo/womenLe
 import { mainCategories } from "../../../data/category/MainCategory";
 import { uploadToCloudinary } from "../../../utils/Cloudinary";
 import { useAppDispatch } from "../../../redux/store";
-import { createProduct } from "../../../redux/seller/actions/sellerProductAction";
+import { createProduct } from "../../../redux/seller/actions/productAction";
 const sizes = ["XS", "S", "M", "L", "XL", "XXL"];
 
 type ProductFormValues = {

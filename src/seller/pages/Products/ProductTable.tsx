@@ -14,7 +14,7 @@ import {
 import EditIcon from "@mui/icons-material/Edit";
 
 import { useAppDispatch, useAppSelector } from "../../../redux/store";
-import { fetchSellerProduct } from "../../../redux/seller/actions/sellerProductAction";
+import { fetchSellerProduct } from "../../../redux/seller/actions/productAction";
 
 export default function ProductTable() {
   const dispatch = useAppDispatch();
