@@ -1,6 +1,10 @@
 import { Button } from "@mui/material";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import { useAppDispatch } from "../../../redux/store";
+import {
+  createCoupon,
+} from "../../../redux/admin/actions/copuonAction";
 
 // Yup validation schema
 const validationSchema = Yup.object({
@@ -19,6 +23,7 @@ const validationSchema = Yup.object({
 });
 
 export default function AddCoupon() {
+  const dispatch = useAppDispatch();
   const formik = useFormik({
     initialValues: {
       couponCode: "",
@@ -28,9 +33,18 @@ export default function AddCoupon() {
       minOrderValue: "",
     },
     validationSchema,
-    onSubmit: (values) => {
-      console.log("Coupon created:", values);
-      // Handle form submission logic here (API call etc.)
+    onSubmit: (values, { resetForm }) => {
+      const payload = {
+        code: values.couponCode,
+        discountPercentage: values.discountPercentage,
+        validityStartDate: values.startDate,
+        validityEndDate: values.endDate,
+        minimumOrderValue: Number(values.minOrderValue),
+      };
+
+      dispatch(createCoupon(payload)).then(() => {
+        resetForm();
+      });
     },
   });
 

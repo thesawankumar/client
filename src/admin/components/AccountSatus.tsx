@@ -11,11 +11,6 @@ const statusOptions: { status: AccountStatus | "ALL"; title: string }[] = [
   { status: AccountStatus.BANNED, title: "Banned" },
   { status: AccountStatus.CLOSED, title: "Closed" },
 ];
-const statusOptionsCoupon = [
-  { status: "ALL", title: "All" },
-  { status: "Active", title: "Active" },
-  { status: "Expired", title: "Expired" },
-];
 
 
 

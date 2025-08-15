@@ -13,9 +13,10 @@ import orderSlice from "../redux/customer/slices/orderSlice";
 import wishlistSlice from "../redux/customer/slices/wishlistSlice";
 import sellerOrderSlice from "../redux/seller/slices/orderSlice";
 import transactionSlice from "../redux/seller/slices/transactionSlice";
-import adminSlice from "../redux/admin/slices/adminSlice";
+import homeCategorySlice from "./admin/slices/homeCategorySlice";
 import customerSlice from "../redux/customer/slices/customerSlice";
 import dealSlice from "../redux/admin/slices/dealSlice";
+import couponSlice from "../redux/admin/slices/couponSlice";
 
 const rootReducer = combineReducers({
   // your reducers here
@@ -29,9 +30,10 @@ const rootReducer = combineReducers({
   //seller slcie
   sellerOrder: sellerOrderSlice,
   transactions: transactionSlice,
-  admin: adminSlice,
+  home: homeCategorySlice,
   customer: customerSlice,
   deal: dealSlice,
+  coupon: couponSlice,
 });
 
 export const store = configureStore({

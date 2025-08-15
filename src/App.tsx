@@ -44,6 +44,7 @@ import PaymentSuccess from "./customer/pages/Payment/PaymentSuccess";
 import Wishlist from "./customer/pages/Wishlist/Wishlist";
 import { createHomePageCategories } from "./redux/customer/actions/customerAction";
 import { homeCategories } from "./data/HomeCategories";
+import ProfileCard from "./components/ProfileCard";
 
 function App() {
   const dispatch = useAppDispatch();
@@ -122,6 +123,7 @@ function App() {
             <Route path="electric-category" element={<Electronic />} />
             <Route path="shop-by-category" element={<ShopCategory />} />
             <Route path="deal" element={<Deal />} />
+            <Route path="account" element={<Profile />} />
           </Route>
         </Routes>
 

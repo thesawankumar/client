@@ -15,7 +15,7 @@ import type { MenuItem } from "../../../components/Sidebar";
 import { Outlet } from "react-router-dom";
 import { useAppDispatch } from "../../../redux/store";
 import { useEffect } from "react";
-import { fetchHomeCategories } from "../../../redux/admin/actions/adminAction";
+import { fetchHomeCategories } from "../../../redux/admin/actions/homeCategoryAction";
 
 const upperMenu: MenuItem[] = [
   { name: "Dashboard", path: "/admin", icon: <Dashboard /> },

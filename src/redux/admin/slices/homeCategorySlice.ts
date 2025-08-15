@@ -3,7 +3,7 @@ import type { HomeCategory } from "../../../types/homeCategoryTypes";
 import {
   fetchHomeCategories,
   updateHomeCategory,
-} from "../actions/adminAction";
+} from "../actions/homeCategoryAction";
 
 interface HomeCategoryState {
   categories: HomeCategory[];

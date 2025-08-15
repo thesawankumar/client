@@ -10,7 +10,6 @@ import {
   sumCartItemMrpPrice,
   sumCartItemSellingPrice,
 } from "../../../utils/sumCartItemMrpPrice";
-import { applyCoupon } from "../actions/couponAction";
 
 interface CartState {
   cart: Cart | null;
@@ -118,10 +117,7 @@ const cartSlice = createSlice({
         state.loading = false;
         state.error = action.payload as string;
       })
-      .addCase(applyCoupon.fulfilled, (state, action) => {
-        state.loading = false;
-        state.cart = action.payload;
-      });
+     
   },
 });
 

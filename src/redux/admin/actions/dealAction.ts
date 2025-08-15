@@ -5,7 +5,7 @@ export const createDeal = createAsyncThunk(
   "deal/createDeal",
   async (deal: any, { rejectWithValue }) => {
     try {
-      const jwt = localStorage.getItem("user-jwt"); // ✅ get token if needed
+      const jwt = localStorage.getItem("admin-jwt"); // ✅ get token if needed
 
       const response = await api.post("/admin/deal/create", deal, {
         headers: {
@@ -30,7 +30,7 @@ export const getAllDeal = createAsyncThunk(
   "deal/getAllDeal",
   async (_, { rejectWithValue }) => {
     try {
-      const jwt = localStorage.getItem("user-jwt"); // ✅ get token
+      const jwt = localStorage.getItem("admin-jwt"); // ✅ get token
 
       const response = await api.get("/admin/deal/all", {
         headers: {

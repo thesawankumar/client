@@ -2,6 +2,9 @@ import { useState } from "react";
 import { toast } from "react-toastify";
 import ClearIcon from "@mui/icons-material/Clear";
 import { useNavigate } from "react-router-dom";
+import { useAppDispatch, useAppSelector } from "../../../redux/store";
+import { applyCoupon } from "../../../redux/admin/actions/copuonAction";
+// import { applyCoupon } from "../../../redux/customer/actions/couponAction";
 
 export default function PricingCard() {
   const [coupon, setCoupon] = useState("");
@@ -10,13 +13,33 @@ export default function PricingCard() {
 
   const handleChange = (e: any) => setCoupon(e.target.value);
 
+  const dispatch = useAppDispatch();
+  // const { cart } = useAppSelector((state) => state.coupon); // optional if you want updated cart
+  const jwt = localStorage.getItem("user-jwt") || "";
+
   const handleApply = () => {
-    if (coupon.trim() === "" || coupon !== "DISCOUNT50") {
-      toast.error("Invalid coupon code!", { theme: "colored" });
-    } else {
-      setIsApplied(true);
-      toast.success("Coupon applied successfully!", { theme: "colored" });
+    if (coupon.trim() === "") {
+      toast.error("Enter a coupon code!", { theme: "colored" });
+      return;
     }
+
+    // Dispatch applyCoupon thunk
+    dispatch(
+      applyCoupon({
+        apply: "true",
+        code: coupon,
+        orderValue: 1399, // you can calculate subtotal dynamically
+        jwt,
+      })
+    )
+      .unwrap()
+      .then(() => {
+        setIsApplied(true);
+        toast.success("Coupon applied successfully!", { theme: "colored" });
+      })
+      .catch((err) => {
+        toast.error(err || "Invalid coupon code!", { theme: "colored" });
+      });
   };
 
   const handleRemoveCoupon = () => {

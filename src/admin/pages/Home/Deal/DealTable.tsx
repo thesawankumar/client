@@ -15,26 +15,7 @@ import { useAppDispatch, useAppSelector } from "../../../../redux/store";
 import { useEffect } from "react";
 import { getAllDeal } from "../../../../redux/admin/actions/dealAction";
 
-const dummyDeals = [
-  {
-    id: 1,
-    image: "https://via.placeholder.com/50",
-    category: "Electronics",
-    discount: "20%",
-  },
-  {
-    id: 2,
-    image: "https://via.placeholder.com/50",
-    category: "Clothing",
-    discount: "40%",
-  },
-  {
-    id: 3,
-    image: "https://via.placeholder.com/50",
-    category: "Books",
-    discount: "15%",
-  },
-];
+
 
 export default function DealTable() {
   const dispatch = useAppDispatch();

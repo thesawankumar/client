@@ -21,21 +21,41 @@ export const sendLoginOtp = createAsyncThunk(
   }
 );
 
+// export const signin = createAsyncThunk<any, any>(
+//   "/auth/signin",
+//   async (LoginRequest, { rejectWithValue }) => {
+//     try {
+//       const response = await api.post("/auth/sign-in", LoginRequest);
+//       console.log("SIGN IN SUCCESSFUL", response.data);
+//       const jwt = response.data.jwt;
+//       localStorage.setItem("user-jwt", jwt);
+//       return response.data.jwt;
+//     } catch (error) {
+//       console.error("Error->  SIGN IN", error);
+//       rejectWithValue(error);
+//     }
+//   }
+// );
+
 export const signin = createAsyncThunk<any, any>(
   "/auth/signin",
-  async (LoginRequest, { rejectWithValue }) => {
+  async (loginRequest, { rejectWithValue }) => {
     try {
-      const response = await api.post("/auth/sign-in", LoginRequest);
-      console.log("SIGN IN SUCCESSFUL", response.data);
-      const jwt = response.data.jwt;
-      localStorage.setItem("user-jwt", jwt);
-      return response.data.jwt;
-    } catch (error) {
-      console.error("Error->  SIGN IN", error);
-      rejectWithValue(error);
+      const response = await api.post("/auth/sign-in", loginRequest);
+      const { jwt, role } = response.data;
+      if (role === "ROLE_ADMIN") {
+        localStorage.setItem("admin-jwt", jwt);
+      } else {
+        localStorage.setItem("user-jwt", jwt);
+      }
+
+      return { jwt, role };
+    } catch (error: any) {
+      return rejectWithValue(error.response?.data || "Login failed");
     }
   }
 );
+
 export const signup = createAsyncThunk<any, any>(
   "/auth/signup",
   async (SignUpRequest, { rejectWithValue }) => {
