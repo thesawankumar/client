@@ -1,17 +1,24 @@
 import { Button } from "@mui/material";
-import { useState } from "react";
-import { mainCategories } from "../../../../data/category/MainCategory";
+import { Formik, Form, Field, ErrorMessage } from "formik";
+import * as Yup from "yup";
+import { useAppDispatch, useAppSelector } from "../../../../redux/store";
+import { createDeal } from "../../../../redux/admin/actions/dealAction";
+
+// ✅ Yup validation schema
+const DealSchema = Yup.object().shape({
+  discount: Yup.number()
+    .typeError("Discount must be a number")
+    .required("Discount is required")
+    .min(1, "Discount must be at least 1%")
+    .max(100, "Discount cannot exceed 100%"),
+  categoryId: Yup.number()
+    .typeError("Please select a category")
+    .required("Category is required"),
+});
 
 export default function CreateDeal() {
-  const [discount, setDiscount] = useState("");
-  const [category, setCategory] = useState("");
-
-  // You can replace this with dynamic data if needed
-
-  const handleCreateDeal = () => {
-    console.log({ discount, category });
-    // Add your create logic here
-  };
+  const dispatch = useAppDispatch();
+  const { customer } = useAppSelector((store) => store);
 
   return (
     <div className="max-w-md mx-auto bg-white p-6 rounded-lg shadow-md space-y-4">
@@ -19,41 +26,80 @@ export default function CreateDeal() {
         Create New Deal
       </h2>
 
-      <div className="space-y-2">
-        <label className="block text-gray-600 font-medium">Discount (%)</label>
-        <input
-          type="number"
-          value={discount}
-          onChange={(e) => setDiscount(e.target.value)}
-          placeholder="Enter discount"
-          className="w-full px-4 py-2 border rounded-md  "
-        />
-      </div>
-
-      <div className="space-y-2">
-        <label className="block text-gray-600 font-medium">Category</label>
-        <select
-          value={category}
-          onChange={(e) => setCategory(e.target.value)}
-          className="w-full px-4 py-2 border rounded-md  "
-        >
-          <option value="">Select Category</option>
-          {mainCategories.map((cat) => (
-            <option key={cat.level} value={cat.name}>
-              {cat.name}
-            </option>
-          ))}
-        </select>
-      </div>
-
-      <Button
-        variant="outlined"
-        type="submit"
-        onClick={handleCreateDeal}
-        className="w-full  text-white py-2 !rounded-lg "
+      <Formik
+        initialValues={{
+          discount: "",
+          categoryId: "",
+        }}
+        validationSchema={DealSchema}
+        onSubmit={(values, { resetForm }) => {
+          const reqData = {
+            discount: Number(values.discount),
+            category: {
+              id: Number(values.categoryId),
+            },
+          };
+          console.log("Request Payload:", reqData);
+          dispatch(createDeal(reqData));
+          resetForm();
+        }}
       >
-        Create Deal
-      </Button>
+        {({ isSubmitting }) => (
+          <Form className="space-y-4">
+            {/* Discount Field */}
+            <div className="space-y-1">
+              <label className="block text-gray-600 font-medium">
+                Discount (%)
+              </label>
+              <Field
+                type="number"
+                name="discount"
+                placeholder="Enter discount"
+                className="w-full px-4 py-2 border rounded-md"
+              />
+              <ErrorMessage
+                name="discount"
+                component="div"
+                className="text-red-500 text-sm"
+              />
+            </div>
+
+            {/* Category Field */}
+            <div className="space-y-1">
+              <label className="block text-gray-600 font-medium">
+                Category
+              </label>
+              <Field
+                as="select"
+                name="categoryId"
+                className="w-full px-4 py-2 border rounded-md"
+              >
+                <option value="">Select Category</option>
+                {customer.homePageData?.dealCategories?.map((cat) => (
+                  <option key={cat.id} value={cat.id}>
+                    {cat.name}
+                  </option>
+                ))}
+              </Field>
+              <ErrorMessage
+                name="categoryId"
+                component="div"
+                className="text-red-500 text-sm"
+              />
+            </div>
+
+            {/* Submit Button */}
+            <Button
+              variant="outlined"
+              type="submit"
+              disabled={isSubmitting}
+              className="w-full !rounded-lg"
+            >
+              {isSubmitting ? "Creating..." : "Create Deal"}
+            </Button>
+          </Form>
+        )}
+      </Formik>
     </div>
   );
 }

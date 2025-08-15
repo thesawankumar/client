@@ -13,6 +13,9 @@ import {
 import Sidebar from "../../../components/Sidebar"; // adjust path as needed
 import type { MenuItem } from "../../../components/Sidebar";
 import { Outlet } from "react-router-dom";
+import { useAppDispatch } from "../../../redux/store";
+import { useEffect } from "react";
+import { fetchHomeCategories } from "../../../redux/admin/actions/adminAction";
 
 const upperMenu: MenuItem[] = [
   { name: "Dashboard", path: "/admin", icon: <Dashboard /> },
@@ -34,10 +37,14 @@ const upperMenu: MenuItem[] = [
 
 const lowerMenu: MenuItem[] = [
   { name: "Account", path: "/admin/account", icon: <AccountCircle /> },
-  { name: "Logout", path: "/", icon: <Logout /> },
+  { name: "Logout", path: "/logout", icon: <Logout /> },
 ];
 
 export default function Admin() {
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    dispatch(fetchHomeCategories());
+  }, []);
   return (
     <div className="px-4 sm:px-8 lg:px-20 w-full min-h-screen mt-5">
       {/* Header */}

@@ -42,6 +42,8 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import PaymentSuccess from "./customer/pages/Payment/PaymentSuccess";
 import Wishlist from "./customer/pages/Wishlist/Wishlist";
+import { createHomePageCategories } from "./redux/customer/actions/customerAction";
+import { homeCategories } from "./data/HomeCategories";
 
 function App() {
   const dispatch = useAppDispatch();
@@ -50,6 +52,7 @@ function App() {
 
   useEffect(() => {
     dispatch(fetchSellerProfile(localStorage.getItem("jwt") || ""));
+    dispatch(createHomePageCategories(homeCategories));
   }, []);
 
   useEffect(() => {

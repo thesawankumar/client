@@ -8,33 +8,18 @@ import {
   Paper,
   Typography,
 } from "@mui/material";
-
-const transactions = [
-  {
-    id: 1,
-    date: "2025-08-05T14:23:00",
-    customer: {
-      name: "Sawan Kumar",
-      email: "sawan@example.com",
-      phone: "9876543210",
-    },
-    orderId: "ORD12345",
-    amount: 1499,
-  },
-  {
-    id: 2,
-    date: "2025-08-04T11:15:00",
-    customer: {
-      name: "John Doe",
-      email: "john@example.com",
-      phone: "9123456789",
-    },
-    orderId: "ORD12346",
-    amount: 799,
-  },
-];
+import { useAppDispatch, useAppSelector } from "../../../redux/store";
+import { useEffect } from "react";
+import { fetchTransactionBySeller } from "../../../redux/seller/actions/transactionAction";
 
 export default function TransactionTable() {
+  const dispatch = useAppDispatch();
+  const { transactions } = useAppSelector((store) => store.transactions); // ✅ Ensure correct slice
+
+  useEffect(() => {
+    dispatch(fetchTransactionBySeller(localStorage.getItem("jwt") || ""));
+  }, [dispatch]);
+
   return (
     <TableContainer component={Paper} sx={{ borderRadius: 2 }}>
       <Typography variant="h6" sx={{ p: 2 }}>
@@ -50,7 +35,7 @@ export default function TransactionTable() {
               <strong>Customer Details</strong>
             </TableCell>
             <TableCell>
-              <strong>Order</strong>
+              <strong>Order ID</strong>
             </TableCell>
             <TableCell>
               <strong>Amount</strong>
@@ -58,20 +43,38 @@ export default function TransactionTable() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {transactions.map((tx) => (
+          {transactions?.map((tx) => (
             <TableRow key={tx.id}>
-              <TableCell>{new Date(tx.date).toLocaleString()}</TableCell>
+              {/* ✅ Date */}
               <TableCell>
-                <div>{tx.customer.name}</div>
+                {new Date(tx.order.orderDate).toLocaleString()}
+              </TableCell>
+
+              {/* ✅ Customer details */}
+              <TableCell>
+                <div>{tx.customer.fullName}</div>
                 <div style={{ fontSize: "0.85rem", color: "#555" }}>
                   {tx.customer.email}
                 </div>
                 <div style={{ fontSize: "0.85rem", color: "#555" }}>
-                  {tx.customer.phone}
+                  {tx.customer.mobile}
                 </div>
               </TableCell>
-              <TableCell>{tx.orderId}</TableCell>
-              <TableCell>₹{tx.amount}</TableCell>
+
+              {/* ✅ Order info */}
+              <TableCell>{tx.order.id}</TableCell>
+
+              {/* ✅ Amount */}
+              <TableCell>
+                {" "}
+                <Typography
+                  variant="body1"
+                  fontWeight="600"
+                  color="success.main"
+                >
+                  ₹{tx.order.totalSellingPrice}
+                </Typography>
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>

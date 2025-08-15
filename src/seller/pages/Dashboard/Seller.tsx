@@ -24,7 +24,7 @@ const upperMenu: MenuItem[] = [
 
 const lowerMenu: MenuItem[] = [
   { name: "Account", path: "/seller/account", icon: <AccountCircle /> },
-  { name: "Logout", path: "/", icon: <Logout /> },
+  { name: "Logout", path: "/logout", icon: <Logout /> },
 ];
 
 export default function Seller() {

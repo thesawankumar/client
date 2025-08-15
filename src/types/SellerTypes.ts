@@ -30,7 +30,6 @@ export interface Seller {
   accountStatus?: string;
 }
 
-
 export interface SellerReport {
   id: number;
   seller: Seller;
@@ -43,4 +42,13 @@ export interface SellerReport {
   totalOrders: number;
   canceledOrders: number;
   totalTransactions: number;
+}
+
+export enum AccountStatus {
+  PENDING_VERIFICATION = "PENDING_VERIFICATION",
+  ACTIVE = "ACTIVE",
+  SUSPENDED = "SUSPENDED",
+  DEACTIVATED = "DEACTIVATED",
+  BANNED = "BANNED",
+  CLOSED = "CLOSED",
 }

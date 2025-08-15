@@ -1,4 +1,3 @@
-import React from "react";
 import {
   Table,
   TableBody,
@@ -12,6 +11,9 @@ import {
 } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
+import { useAppDispatch, useAppSelector } from "../../../../redux/store";
+import { useEffect } from "react";
+import { getAllDeal } from "../../../../redux/admin/actions/dealAction";
 
 const dummyDeals = [
   {
@@ -35,6 +37,11 @@ const dummyDeals = [
 ];
 
 export default function DealTable() {
+  const dispatch = useAppDispatch();
+  const { deal } = useAppSelector((store) => store);
+  useEffect(() => {
+    dispatch(getAllDeal());
+  }, []);
   return (
     <TableContainer component={Paper} className="shadow-md">
       <Table>
@@ -48,13 +55,13 @@ export default function DealTable() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {dummyDeals.map((deal, index) => (
+          {deal.deals.map((deal, index) => (
             <TableRow key={deal.id}>
               <TableCell>{index + 1}</TableCell>
               <TableCell>
-                <Avatar src={deal.image} alt="deal" variant="rounded" />
+                <Avatar src={deal.category.image} alt="deal" variant="rounded" />
               </TableCell>
-              <TableCell>{deal.category}</TableCell>
+              <TableCell>{deal.category.id}</TableCell>
               <TableCell>{deal.discount}</TableCell>
               <TableCell align="center">
                 <IconButton color="primary">

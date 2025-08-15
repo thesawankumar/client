@@ -10,7 +10,7 @@ export default function ElectricCategoryCard({
   return (
     <div className="text-center flex flex-col items-center hover:scale-105 transition-transform">
       <img
-        className="h-8 w-8 sm:h-6 sm:w-6 md:h-12 md:w-12 object-contain mx-auto"
+        className="h-8 w-8 sm:h-6 sm:w-6 md:h-10 md:w-10 object-contain mx-auto"
         src={image}
         alt={name}
       />

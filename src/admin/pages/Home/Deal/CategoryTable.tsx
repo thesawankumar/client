@@ -10,26 +10,10 @@ import {
   Avatar,
 } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
-
-const categoryData = [
-  {
-    id: "c1",
-    image: "https://via.placeholder.com/40",
-    category: "Electronics",
-  },
-  {
-    id: "c2",
-    image: "https://via.placeholder.com/40",
-    category: "Clothing",
-  },
-  {
-    id: "c3",
-    image: "https://via.placeholder.com/40",
-    category: "Books",
-  },
-];
+import { useAppSelector } from "../../../../redux/store";
 
 export default function CategoryTable() {
+  const { customer } = useAppSelector((store) => store);
   return (
     <TableContainer component={Paper} className="shadow-lg rounded-xl">
       <Table>
@@ -43,14 +27,14 @@ export default function CategoryTable() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {categoryData.map((item, index) => (
+          {customer.homePageData?.dealCategories.map((item, index) => (
             <TableRow key={item.id}>
               <TableCell>{index + 1}</TableCell>
               <TableCell>{item.id}</TableCell>
               <TableCell>
-                <Avatar src={item.image} alt={item.category} />
+                <Avatar src={item.image} alt={item.name} />
               </TableCell>
-              <TableCell>{item.category}</TableCell>
+              <TableCell>{item.categoryId}</TableCell>
               <TableCell align="center">
                 <IconButton color="primary">
                   <EditIcon />
