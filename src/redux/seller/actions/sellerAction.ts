@@ -1,5 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { api } from "../../../config/Api";
+import type { AccountStatus, Seller } from "../../../types/SellerTypes";
 
 export const fetchSellerProfile = createAsyncThunk(
   "/seller/fetchSellerProfile",
@@ -14,7 +15,7 @@ export const fetchSellerProfile = createAsyncThunk(
       return response.data;
     } catch (error) {
       console.error("Error in Fetch Seller Profile", error);
-      rejectWithValue(error)
+      rejectWithValue(error);
     }
   }
 );
@@ -30,7 +31,39 @@ export const sellerLogin = createAsyncThunk<any, any>(
       return response.data;
     } catch (error) {
       console.error("Error->  SIGN IN", error);
-      rejectWithValue(error)
+      rejectWithValue(error);
     }
   }
 );
+
+export const getSellerByAdmin = createAsyncThunk<
+  Seller[],
+  AccountStatus | undefined
+>("seller/getSellerByAdmin", async (status, { rejectWithValue }) => {
+  try {
+    const res = await api.get("/admin/sellers", {
+      params: status ? { status } : {},
+    });
+    return res.data;
+  } catch (error: any) {
+    return rejectWithValue(
+      error.response?.data?.message || "Failed to fetch sellers"
+    );
+  }
+});
+
+// Update Seller Status
+export const updateSellerStatus = createAsyncThunk<
+  Seller,
+  { id: number; status: AccountStatus },
+  { rejectValue: string }
+>("seller/updateSellerStatus", async ({ id, status }, { rejectWithValue }) => {
+  try {
+    const res = await api.patch(`/admin/seller/${id}/update-status/${status}`);
+    return res.data;
+  } catch (error: any) {
+    return rejectWithValue(
+      error.response?.data?.message || "Failed to update status"
+    );
+  }
+});

@@ -1,5 +1,6 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { fetchSellerProfile } from "../actions/sellerAction";
+import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
+import { fetchSellerProfile, getSellerByAdmin, updateSellerStatus } from "../actions/sellerAction";
+import type { Seller } from "../../../types/SellerTypes";
 
 interface SellerState {
   seller: any[];
@@ -35,6 +36,34 @@ const sellerSlice = createSlice({
       state.loading = false;
       state.error = action.payload;
     });
+    builder
+      .addCase(getSellerByAdmin.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(
+        getSellerByAdmin.fulfilled,
+        (state, action: PayloadAction<Seller[]>) => {
+          state.loading = false;
+          state.seller = action.payload;
+        }
+      )
+      .addCase(
+        getSellerByAdmin.rejected,
+        (state, action: PayloadAction<any>) => {
+          state.loading = false;
+          state.error = action.payload;
+        }
+      )
+      .addCase(
+        updateSellerStatus.fulfilled,
+        (state, action: PayloadAction<Seller>) => {
+          const index = state.seller.findIndex(
+            (s) => s.id === action.payload.id
+          );
+          if (index !== -1) state.seller[index] = action.payload;
+        }
+      );
   },
 });
 

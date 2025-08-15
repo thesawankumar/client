@@ -1,60 +1,37 @@
-import React, { useState } from "react";
+import { AccountStatus } from "../../types/SellerTypes";
 
-// 👇 Account status options
-const statusOptions = [
-  {
-    status: "ACTIVE",
-    title: "Active",
-    description: "The account is active and in good standing.",
-  },
-  {
-    status: "PENDING_VERIFICATION",
-    title: "Pending Verification",
-    description: "The account is awaiting verification.",
-  },
-  {
-    status: "SUSPENDED",
-    title: "Suspended",
-    description: "The account has been temporarily suspended.",
-  },
-  {
-    status: "DEACTIVATED",
-    title: "Deactivated",
-    description: "The account has been deactivated by the user.",
-  },
-  {
-    status: "BANNED",
-    title: "Banned",
-    description: "The account is permanently banned.",
-  },
-  {
-    status: "CLOSED",
-    title: "Closed",
-    description: "The account has been closed permanently.",
-  },
+
+
+const statusOptions: { status: AccountStatus | "ALL"; title: string }[] = [
+  { status: "ALL", title: "All" },
+  { status: AccountStatus.ACTIVE, title: "Active" },
+  { status: AccountStatus.PENDING_VERIFICATION, title: "Pending Verification" },
+  { status: AccountStatus.SUSPENDED, title: "Suspended" },
+  { status: AccountStatus.DEACTIVATED, title: "Deactivated" },
+  { status: AccountStatus.BANNED, title: "Banned" },
+  { status: AccountStatus.CLOSED, title: "Closed" },
+];
+const statusOptionsCoupon = [
+  { status: "ALL", title: "All" },
+  { status: "Active", title: "Active" },
+  { status: "Expired", title: "Expired" },
 ];
 
-export default function AccountStatusChange() {
-  const [accountStatus, setAccountStatus] = useState("ACTIVE");
-
-  const handleChangeAccountStatus = (
-    e: React.ChangeEvent<HTMLSelectElement>
-  ) => {
-    setAccountStatus(e.target.value);
-  };
 
 
+type Props = {
+  filterStatus: AccountStatus | "ALL";
+  setFilterStatus: (status: AccountStatus | "ALL") => void;
+};
 
+export default function AccountStatusChange({ filterStatus, setFilterStatus }: Props) {
   return (
-    <div className="space-y-3">
-      <label className="block text-sm font-medium text-gray-700 mb-1">
-        Status
-      </label>
+    <div className="space-y-3 mb-3">
+      <label className="block text-sm font-medium text-gray-700 mb-1">Filter by Status</label>
       <select
         className="border rounded-md w-56 p-2 text-sm"
-        name="status"
-        value={accountStatus}
-        onChange={handleChangeAccountStatus}
+        value={filterStatus}
+        onChange={(e) => setFilterStatus(e.target.value as AccountStatus | "ALL")}
       >
         {statusOptions.map((option) => (
           <option key={option.status} value={option.status}>
@@ -62,8 +39,6 @@ export default function AccountStatusChange() {
           </option>
         ))}
       </select>
-
-    
     </div>
   );
 }

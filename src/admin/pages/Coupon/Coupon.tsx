@@ -4,7 +4,7 @@ import CouponTable from "./CouponTable";
 export default function Coupon() {
   return (
     <div>
-      <AccountStatusComponent />
+      {/* <AccountStatusComponent /> */}
       <CouponTable />
     </div>
   );
