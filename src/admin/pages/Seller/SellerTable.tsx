@@ -20,21 +20,28 @@ import {
   getSellerByAdmin,
   updateSellerStatus,
 } from "../../../redux/seller/actions/sellerAction";
-import { AccountStatus,type Seller } from "../../../types/SellerTypes";
+import { AccountStatus, type Seller } from "../../../types/SellerTypes";
 import AccountStatusChange from "../../components/AccountSatus";
 
 export default function SellerTable() {
   const dispatch = useAppDispatch();
   const { seller, loading, error } = useAppSelector((state) => state.seller);
 
-  const [statusUpdate, setStatusUpdate] = useState<Record<number, AccountStatus>>({});
+  const [statusUpdate, setStatusUpdate] = useState<
+    Record<number, AccountStatus>
+  >({});
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [activeSellerId, setActiveSellerId] = useState<number | null>(null);
-  const [filterStatus, setFilterStatus] = useState<AccountStatus | "ALL">("ALL");
+  const [filterStatus, setFilterStatus] = useState<AccountStatus | "ALL">(
+    "ALL"
+  );
 
   const open = Boolean(anchorEl);
 
-  const handleClick = (event: React.MouseEvent<HTMLElement>, sellerId: number) => {
+  const handleClick = (
+    event: React.MouseEvent<HTMLElement>,
+    sellerId: number
+  ) => {
     setAnchorEl(event.currentTarget);
     setActiveSellerId(sellerId);
   };
@@ -52,7 +59,9 @@ export default function SellerTable() {
 
   const parseAccountStatus = (status: string | undefined): AccountStatus => {
     if (!status) return AccountStatus.PENDING_VERIFICATION;
-    const key = status.toUpperCase().replaceAll(" ", "_") as keyof typeof AccountStatus;
+    const key = status
+      .toUpperCase()
+      .replaceAll(" ", "_") as keyof typeof AccountStatus;
     return AccountStatus[key] ?? AccountStatus.PENDING_VERIFICATION;
   };
 
@@ -80,7 +89,9 @@ export default function SellerTable() {
   const filteredSellers =
     filterStatus === "ALL"
       ? seller
-      : seller.filter((s) => parseAccountStatus(s.accountStatus) === filterStatus);
+      : seller.filter(
+          (s) => parseAccountStatus(s.accountStatus) === filterStatus
+        );
 
   return (
     <>
@@ -90,19 +101,20 @@ export default function SellerTable() {
         setFilterStatus={setFilterStatus}
       />
 
-      <TableContainer component={Paper} sx={{ borderRadius: 3, mt: 3, boxShadow: 4 }}>
+      <TableContainer
+        component={Paper}
+        sx={{ borderRadius: 3, mt: 3, boxShadow: 4 }}
+      >
         <Table>
           <TableHead>
-            <TableRow sx={{ backgroundColor: "#f5f5f5" }}>
-              {["Seller Name", "Email", "Mobile", "GSTIN", "Business Name", "Account Status", "Actions"].map(
-                (title) => (
-                  <TableCell key={title}>
-                    <Typography fontWeight={600} color="text.secondary">
-                      {title}
-                    </Typography>
-                  </TableCell>
-                )
-              )}
+            <TableRow className="bg-gray-100">
+              <TableCell>Seller Name</TableCell>
+              <TableCell>Email</TableCell>
+              <TableCell>Mobile</TableCell>
+              <TableCell>GSTIN</TableCell>
+              <TableCell>Business Name</TableCell>
+              <TableCell>Account Staus</TableCell>
+              <TableCell>Actions</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -114,7 +126,9 @@ export default function SellerTable() {
                   <TableCell>{s.email}</TableCell>
                   <TableCell>{s.mobile}</TableCell>
                   <TableCell>{s.GSTIN}</TableCell>
-                  <TableCell>{s.businessDetails?.businessName || "-"}</TableCell>
+                  <TableCell>
+                    {s.businessDetails?.businessName || "-"}
+                  </TableCell>
                   <TableCell>
                     <Chip
                       label={status.replaceAll("_", " ")}
@@ -124,19 +138,27 @@ export default function SellerTable() {
                     />
                   </TableCell>
                   <TableCell>
-                    <IconButton onClick={(e) => handleClick(e, s.id!)} size="small">
+                    <IconButton
+                      onClick={(e) => handleClick(e, s.id!)}
+                      size="small"
+                    >
                       <MoreVertIcon />
                     </IconButton>
                     <Menu
                       anchorEl={anchorEl}
                       open={open && activeSellerId === s.id}
                       onClose={handleClose}
-                      PaperProps={{ sx: { minWidth: 160, borderRadius: 2, boxShadow: 3 } }}
+                      PaperProps={{
+                        sx: { minWidth: 160, borderRadius: 2, boxShadow: 3 },
+                      }}
                     >
                       {Object.values(AccountStatus).map((st) => {
                         const parsed = parseAccountStatus(st);
                         return (
-                          <MenuItem key={parsed} onClick={() => handleStatusChange(s.id!, parsed)}>
+                          <MenuItem
+                            key={parsed}
+                            onClick={() => handleStatusChange(s.id!, parsed)}
+                          >
                             <Chip
                               label={parsed.replaceAll("_", " ")}
                               color={getStatusColor(parsed)}

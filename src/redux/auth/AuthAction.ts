@@ -100,6 +100,9 @@ export const logout = createAsyncThunk(
       if (localStorage.getItem("user-jwt")) {
         localStorage.removeItem("user-jwt"); // customer
       }
+      if (localStorage.getItem("admin-jwt")) {
+        localStorage.removeItem("admin-jwt");
+      }
 
       return { success: true };
     } catch (error) {

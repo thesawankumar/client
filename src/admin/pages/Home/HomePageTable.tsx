@@ -10,7 +10,6 @@ import {
   IconButton,
 } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
-import { useAppSelector } from "../../../redux/store";
 import type { HomeCategory } from "../../../types/homeCategoryTypes";
 
 export default function HomePageTable({ data }: { data: HomeCategory[] }) {
@@ -18,7 +17,7 @@ export default function HomePageTable({ data }: { data: HomeCategory[] }) {
     console.log(`Update item with ID: ${itemId}`);
     // Here you can open a dialog or navigate to update page
   };
-  const { customer } = useAppSelector((store) => store);
+
 
   return (
     <div className="p-6">

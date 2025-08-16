@@ -12,6 +12,8 @@ import sareeImg from "../images/saree.png";
 import topsImg from "../images/tops.png";
 import smartwatchesImg from "../images/smartwatch.jpg";
 import cat1 from "../images/Category.png";
+import furniture from "../images/furtinure.png";
+import refrigetor from "../images/refrigetor.png";
 
 export const homeCategories = [
   // 🛍 SHOP_BY_CATEGORIES
@@ -80,8 +82,7 @@ export const homeCategories = [
     categoryId: "furniture",
     section: "GRID",
     name: "Furniture",
-    image:
-      "https://rukminim2.flixcart.com/image/312/312/furniture-category.jpg",
+    image: furniture,
   },
   {
     categoryId: "appliances",
@@ -91,10 +92,10 @@ export const homeCategories = [
       "https://rukminim2.flixcart.com/image/312/312/appliance-category.jpg",
   },
   {
-    categoryId: "kitchen",
+    categoryId: "refrigetor",
     section: "GRID",
-    name: "Kitchen",
-    image: "https://rukminim2.flixcart.com/image/312/312/kitchen-category.jpg",
+    name: "Refrigetor",
+    image: refrigetor,
   },
   {
     categoryId: "decor",

@@ -2,9 +2,14 @@ import { useState, useRef, useEffect } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useAppDispatch, useAppSelector } from "../../../redux/store";
-import { sendLoginOtp, signin } from "../../../redux/auth/AuthAction";
+import {
+  fetchUserProfile,
+  sendLoginOtp,
+  signin,
+} from "../../../redux/auth/AuthAction";
 import CircularProgress from "@mui/material/CircularProgress";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 export default function Auth() {
   const [isLogin, setIsLogin] = useState(true);
@@ -13,6 +18,7 @@ export default function Auth() {
   const otpRefs = useRef<(HTMLInputElement | null)[]>([]);
   const dispatch = useAppDispatch();
   const auth = useAppSelector((store) => store.auth); // useAppSelector corrected
+  const navigate = useNavigate();
 
   const validationSchema = Yup.object({
     email: Yup.string().email("Invalid email").required("Email is required"),
@@ -40,6 +46,8 @@ export default function Auth() {
         const resultAction = await dispatch(signin(values));
         if (signin.fulfilled.match(resultAction)) {
           toast.success("Sign-in successful!");
+          dispatch(fetchUserProfile(values));
+          navigate("/account/profile");
           // After signin, reset or do something else if needed
         } else {
           toast.error("Sign-in failed");

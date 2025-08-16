@@ -40,7 +40,7 @@ const authSlice = createSlice({
       state.loading = false;
     });
     builder.addCase(signin.fulfilled, (state, action) => {
-      state.jwt = action.payload;
+      state.jwt = action.payload.jwt;
       state.isLoggedIn = true;
     });
     builder.addCase(signup.fulfilled, (state, action) => {

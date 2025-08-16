@@ -44,7 +44,6 @@ import PaymentSuccess from "./customer/pages/Payment/PaymentSuccess";
 import Wishlist from "./customer/pages/Wishlist/Wishlist";
 import { createHomePageCategories } from "./redux/customer/actions/customerAction";
 import { homeCategories } from "./data/HomeCategories";
-import ProfileCard from "./components/ProfileCard";
 
 function App() {
   const dispatch = useAppDispatch();
