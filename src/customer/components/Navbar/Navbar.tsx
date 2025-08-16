@@ -17,9 +17,12 @@ import SearchIcon from "@mui/icons-material/Search";
 import { AddShoppingCart, FavoriteBorder, Store } from "@mui/icons-material";
 import { mainCategories } from "../../../data/category/MainCategory";
 import CategorySheet from "./CategorySheet";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAppSelector } from "../../../redux/store";
+import { useAppSelector, useAppDispatch } from "../../../redux/store";
+import { getWishlistByUserId } from "../../../redux/customer/actions/wishlistAction";
+import { fetchUserCart } from "../../../redux/customer/actions/cartAction";
+// make sure this exists
 
 export default function Navbar() {
   const data = mainCategories;
@@ -29,7 +32,20 @@ export default function Navbar() {
   const [showCategorySheet, setShowCategorySheet] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+
   const { user } = useAppSelector((store) => store.auth);
+  const cartItems = useAppSelector((store) => store.cart.cart?.cartItems) || [];
+  const wishlistItems =
+    useAppSelector((store) => store.wishlist.wishlist?.products) || [];
+
+  // Fetch cart & wishlist when Navbar mounts or user changes
+  useEffect(() => {
+    if (user) {
+      dispatch(getWishlistByUserId());
+      dispatch(fetchUserCart(localStorage.getItem("user-jwt") || ""));
+    }
+  }, [user, dispatch]);
 
   const toggleDrawer = (open: boolean) => {
     setMobileMenuOpen(open);
@@ -39,6 +55,7 @@ export default function Navbar() {
     <Box>
       <Box className="sticky top-0 right-0 left-0 bg-white" sx={{ zIndex: 2 }}>
         <div className="flex items-center justify-between px-5 lg:px-20 h-[70px] border-b border-gray-200">
+          {/* Left: Logo + Categories */}
           <div className="flex items-center gap-9">
             <div className="flex items-center gap-2">
               {!isLargeScreen && (
@@ -74,8 +91,7 @@ export default function Navbar() {
           </div>
 
           {/* Right Icons */}
-          {/* Right Icons */}
-          <div className="flex items-center gap-1 lg:gap-3">
+          <div className="flex items-center gap-1 lg:gap-3 relative">
             {isLargeScreen && (
               <>
                 <IconButton>
@@ -105,15 +121,35 @@ export default function Navbar() {
               </>
             )}
 
-            {/* Always visible on mobile & desktop */}
-            <IconButton onClick={() => navigate("/wishlist")} size="small">
+            {/* Wishlist Icon with Badge */}
+            <IconButton
+              onClick={() => navigate("/wishlist")}
+              size="small"
+              className="relative"
+            >
               <FavoriteBorder className="text-gray-600" sx={{ fontSize: 22 }} />
+              {wishlistItems.length > 0 && (
+                <span className="absolute -top-1 -right-1 text-[10px] font-bold bg-red-500 text-white rounded-full w-4 h-4 flex items-center justify-center">
+                  {wishlistItems.length}
+                </span>
+              )}
             </IconButton>
-            <IconButton onClick={() => navigate("/cart")} size="small">
+
+            {/* Cart Icon with Badge */}
+            <IconButton
+              onClick={() => navigate("/cart")}
+              size="small"
+              className="relative"
+            >
               <AddShoppingCart
                 className="text-gray-600"
                 sx={{ fontSize: 22 }}
               />
+              {cartItems.length > 0 && (
+                <span className="absolute -top-1 -right-1 text-[10px] font-bold bg-red-500 text-white rounded-full w-4 h-4 flex items-center justify-center">
+                  {cartItems.length}
+                </span>
+              )}
             </IconButton>
 
             {isLargeScreen && (

@@ -1,32 +1,29 @@
-import { useState, useEffect } from "react";
+// PricingCard.tsx
+import { useState } from "react";
 import { toast } from "react-toastify";
 import ClearIcon from "@mui/icons-material/Clear";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../../redux/store";
-import { applyCoupon } from "../../../redux/admin/actions/copuonAction";
+
+import { fetchUserCart } from "../../../redux/customer/actions/cartAction";
+import { applyCoupon } from "../../../redux/admin/actions/couponAction";
 
 export default function PricingCard() {
-  const [coupon, setCoupon] = useState("");
-  const [isApplied, setIsApplied] = useState(false);
-  const [discount, setDiscount] = useState(0);
+  const [couponInput, setCouponInput] = useState("");
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const { cart } = useAppSelector((state) => state.cart); // always latest cart
+  const { cart } = useAppSelector((state) => state.cart); // Redux cart
   const jwt = localStorage.getItem("user-jwt") || "";
 
-  const shipping = 79;
-  const platformFee = 0;
-
-  // Dynamically calculate subtotal from cart items
   const subtotal =
     cart?.cartItems?.reduce((acc, item) => acc + item.sellingPrice, 0) || 0;
-
+  const discount = cart && cart.cartItems?.length > 0 ? cart.discount || 0 : 0;
+  const shipping = 79;
+  const platformFee = 0;
   const total = subtotal - discount + shipping + platformFee;
 
-  const handleChange = (e: any) => setCoupon(e.target.value);
-
   const handleApply = () => {
-    if (coupon.trim() === "") {
+    if (couponInput.trim() === "") {
       toast.error("Enter a coupon code!", { theme: "colored" });
       return;
     }
@@ -34,17 +31,18 @@ export default function PricingCard() {
     dispatch(
       applyCoupon({
         apply: "true",
-        code: coupon,
-        orderValue: subtotal, // send current subtotal
+        code: couponInput,
+        orderValue: subtotal,
         jwt,
       })
     )
       .unwrap()
       .then((res: any) => {
-        setIsApplied(true);
-        setCoupon(res?.couponCode || coupon); // backend returns applied coupon code
-        setDiscount(subtotal - res?.totalSellingPrice || 0); // calculate discount from backend
-        toast.success("Coupon applied successfully!", { theme: "colored" });
+        toast.success(`Coupon "${res.couponCode}" applied successfully!`, {
+          theme: "colored",
+        });
+        setCouponInput("");
+        dispatch(fetchUserCart(jwt)); // ✅ refresh cart after applying coupon
       })
       .catch((err) => {
         toast.error(err?.message || "Coupon is not valid or has expired", {
@@ -54,15 +52,31 @@ export default function PricingCard() {
   };
 
   const handleRemoveCoupon = () => {
-    setCoupon("");
-    setDiscount(0);
-    setIsApplied(false);
-    toast.info("Coupon removed!", { theme: "colored" });
+    if (!cart?.couponCode) return;
+
+    dispatch(
+      applyCoupon({
+        apply: "false",
+        code: cart.couponCode,
+        orderValue: subtotal,
+        jwt,
+      })
+    )
+      .unwrap()
+      .then(() => {
+        toast.info("Coupon removed!", { theme: "colored" });
+        dispatch(fetchUserCart(jwt)); // ✅ refresh cart after removing coupon
+      })
+      .catch((err) => {
+        toast.error(err?.message || "Failed to remove coupon", {
+          theme: "colored",
+        });
+      });
   };
 
   return (
     <div className="rounded-lg p-5 space-y-4 border border-gray-400 sm:w-[70%] w-full">
-      {/* Coupon */}
+      {/* Coupon Section */}
       <div className="flex items-center gap-2 text-sm font-semibold">
         <span className="text-green-600">🏷️</span>
         <span>Apply Coupons</span>
@@ -70,16 +84,18 @@ export default function PricingCard() {
 
       <div className="relative">
         <input
-          onChange={handleChange}
-          value={isApplied ? `${coupon} (Applied)` : coupon}
           type="text"
           placeholder="coupon code"
-          readOnly={isApplied}
+          onChange={(e) => setCouponInput(e.target.value)}
+          value={
+            cart?.couponCode ? `${cart.couponCode} (Applied)` : couponInput
+          }
+          readOnly={!!cart?.couponCode}
           className={`border rounded p-2 pr-10 w-full text-sm ${
-            isApplied ? "bg-gray-100 text-green-700 font-semibold" : ""
+            cart?.couponCode ? "bg-gray-100 text-green-700 font-semibold" : ""
           }`}
         />
-        {isApplied ? (
+        {cart?.couponCode ? (
           <ClearIcon
             fontSize="small"
             onClick={handleRemoveCoupon}
@@ -104,7 +120,7 @@ export default function PricingCard() {
         <div className="flex justify-between">
           <span>Discount</span>
           <span className="font-semibold text-green-600">
-            {isApplied ? `- ₹ ${discount}` : "- ₹ 0"}
+            {discount > 0 ? `- ₹ ${discount}` : "- ₹ 0"}
           </span>
         </div>
         <div className="flex justify-between">
@@ -117,12 +133,12 @@ export default function PricingCard() {
             {platformFee === 0 ? "Free" : `₹ ${platformFee}`}
           </span>
         </div>
-      </div>
 
-      {/* Total */}
-      <div className="flex justify-between items-center text-base font-bold border-t pt-4">
-        <span>Total</span>
-        <span>₹ {total}</span>
+        {/* Total */}
+        <div className="flex justify-between items-center text-base font-bold border-t pt-4">
+          <span>Total</span>
+          <span>₹ {total}</span>
+        </div>
       </div>
 
       {/* Buy Button */}

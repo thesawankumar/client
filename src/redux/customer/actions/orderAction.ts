@@ -45,22 +45,57 @@ export const fetchOrderById = createAsyncThunk<
   }
 });
 
+// export const createOrder = createAsyncThunk<
+//   any, // success return type
+//   { address: Address; jwt: string; paymentGateway: string }, // argument type
+//   { rejectValue: string } // rejected value type
+// >(
+//   "order/createOrder",
+//   async ({ address, jwt, paymentGateway }, { rejectWithValue }) => {
+//     try {
+//       const response = await api.post<any>("/order/create-order", address, {
+//         headers: {
+//           Authorization: `Bearer ${jwt}`,
+//         },
+//         params: {
+//           paymentMethod: paymentGateway,
+//         },
+//       });
+
+//       console.log("Create Order Data", response.data);
+
+//       if (response.data.payment_link_url) {
+//         window.location.href = response.data.payment_link_url;
+//       }
+
+//       return response.data;
+//     } catch (error: any) {
+//       console.error("Error -> Create order", error);
+//       return rejectWithValue(
+//         error?.response?.data?.message || "Failed to Create Order"
+//       );
+//     }
+//   }
+// );
+
 export const createOrder = createAsyncThunk<
   any, // success return type
-  { address: Address; jwt: string; paymentGateway: string }, // argument type
+  { addressId: number; jwt: string; paymentGateway: string }, // argument type
   { rejectValue: string } // rejected value type
 >(
   "order/createOrder",
-  async ({ address, jwt, paymentGateway }, { rejectWithValue }) => {
+  async ({ addressId, jwt, paymentGateway }, { rejectWithValue }) => {
     try {
-      const response = await api.post<any>("/order/create-order", address, {
-        headers: {
-          Authorization: `Bearer ${jwt}`,
-        },
-        params: {
-          paymentMethod: paymentGateway,
-        },
-      });
+      const response = await api.post<any>(
+        "/order/create-order",
+        { addressId }, // send only addressId
+        {
+          headers: {
+            Authorization: `Bearer ${jwt}`,
+          },
+          params: { paymentMethod: paymentGateway },
+        }
+      );
 
       console.log("Create Order Data", response.data);
 

@@ -2,9 +2,7 @@ import { Button } from "@mui/material";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useAppDispatch } from "../../../redux/store";
-import {
-  createCoupon,
-} from "../../../redux/admin/actions/copuonAction";
+import { createCoupon } from "../../../redux/admin/actions/couponAction";
 
 // Yup validation schema
 const validationSchema = Yup.object({

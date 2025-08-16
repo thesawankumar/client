@@ -14,7 +14,7 @@ import { useEffect } from "react";
 import {
   deleteCoupon,
   fetchAllCoupons,
-} from "../../../redux/admin/actions/copuonAction";
+} from "../../../redux/admin/actions/couponAction";
 import { toast } from "react-toastify";
 
 export default function CouponTable() {

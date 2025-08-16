@@ -18,3 +18,17 @@ export const fetchUserAddresses = createAsyncThunk<
     return rejectWithValue(error.response?.data || "Failed to fetch addresses");
   }
 });
+
+export const addUserAddress = createAsyncThunk<
+  Address, // return type
+  { jwt: string; address: Address } // argument
+>("address/addUserAddress", async ({ jwt, address }, { rejectWithValue }) => {
+  try {
+    const response = await api.post("/user/address/create", address, {
+      headers: { Authorization: `Bearer ${jwt}` },
+    });
+    return response.data as Address;
+  } catch (error: any) {
+    return rejectWithValue(error.response?.data || "Failed to add address");
+  }
+});

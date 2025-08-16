@@ -4,7 +4,7 @@ import {
   createCoupon,
   deleteCoupon,
   fetchAllCoupons,
-} from "../actions/copuonAction";
+} from "../actions/couponAction";
 import type { CouponState } from "../../../types/couponTypes";
 
 const initialState: CouponState = {

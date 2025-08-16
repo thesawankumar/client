@@ -1,12 +1,23 @@
 import { Payment } from "@mui/icons-material";
 
-
 export default function PaymentMethodCard({
   selectedGateway,
   setSelectedGateway,
+  subtotal,
+  discount,
+  shipping,
+  platformFee,
+  total,
+  onCheckout,
 }: {
   selectedGateway: string;
   setSelectedGateway: (val: string) => void;
+  subtotal: number;
+  discount: number;
+  shipping: number;
+  platformFee: number;
+  total: number;
+  onCheckout: () => void;
 }) {
   const handlePaymentChange = (event: any) => {
     setSelectedGateway(event.target.value);
@@ -47,28 +58,33 @@ export default function PaymentMethodCard({
       <div className="text-sm space-y-2 border-t pt-4">
         <div className="flex justify-between">
           <span>Subtotal</span>
-          <span className="font-semibold">₹ 1399</span>
+          <span className="font-semibold">₹ {subtotal}</span>
         </div>
         <div className="flex justify-between">
           <span>Discount</span>
-          <span className="font-semibold ">₹ 600</span>
+          <span className="font-semibold text-green-600">- ₹ {discount}</span>
         </div>
         <div className="flex justify-between">
           <span>Shipping</span>
-          <span className="font-semibold">₹ 79</span>
+          <span className="font-semibold">₹ {shipping}</span>
         </div>
         <div className="flex justify-between">
           <span>Platform fee</span>
-          <span className="font-semibold text-green-600">Free</span>
+          <span className="font-semibold text-green-600">{platformFee === 0 ? "Free" : `₹ ${platformFee}`}</span>
         </div>
       </div>
+
       {/* Total */}
       <div className="flex justify-between items-center text-base font-bold border-t pt-4">
         <span>Total</span>
-        <span>₹ 799 </span>
+        <span>₹ {total}</span>
       </div>
-      {/* Buy Button */}
-      <button className="w-full cursor-pointer bg-green-600 text-white text-sm py-3 rounded hover:bg-green-700">
+
+      {/* Checkout Button */}
+      <button
+        onClick={onCheckout}
+        className="w-full cursor-pointer bg-green-600 text-white text-sm py-3 rounded hover:bg-green-700"
+      >
         CHECKOUT
       </button>
     </div>

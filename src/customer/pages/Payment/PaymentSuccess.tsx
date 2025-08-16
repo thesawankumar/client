@@ -1,10 +1,5 @@
 import { CheckCircle } from "@mui/icons-material";
-import {
-  useParams,
-  Link,
-  useNavigate,
-  useLocation,
-} from "react-router-dom";
+import { useParams, Link, useNavigate, useLocation } from "react-router-dom";
 import { useAppDispatch } from "../../../redux/store";
 import { useEffect } from "react";
 import { paymentSuccess } from "../../../redux/customer/actions/orderAction";
@@ -12,7 +7,6 @@ import { paymentSuccess } from "../../../redux/customer/actions/orderAction";
 export default function PaymentSuccess() {
   const { orderId } = useParams();
 
-  const location = useLocation();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
@@ -56,29 +50,10 @@ export default function PaymentSuccess() {
           </p>
         </div>
 
-        {/* Payment Details */}
-        {/* <div className="bg-gray-100 p-4 rounded-lg text-left text-sm space-y-1">
-          <p>
-            <span className="font-medium">Order ID:</span> {orderId}
-          </p>
-          <p>
-            <span className="font-medium">Payment ID:</span> {}
-          </p>
-          <p>
-            <span className="font-medium">Link ID:</span> {linkId}
-          </p>
-          <p>
-            <span className="font-medium">Status:</span> {status}
-          </p>
-          <p className="break-all">
-            <span className="font-medium">Signature:</span> {signature}
-          </p>
-        </div> */}
-
         {/* Actions */}
         <div className="flex flex-col sm:flex-row gap-3 mt-4">
           <Link
-            to="/orders"
+            to="/account/orders"
             className="flex-1 bg-green-600 text-white py-3 rounded-lg font-medium hover:bg-green-700 transition"
           >
             View Orders

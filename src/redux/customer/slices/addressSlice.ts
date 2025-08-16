@@ -1,6 +1,6 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 import type { Address } from "../../../types/UserTypes";
-import { fetchUserAddresses } from "../actions/addressAction";
+import { addUserAddress, fetchUserAddresses } from "../actions/addressAction";
 
 interface AddressState {
   addresses: Address[];
@@ -32,6 +32,21 @@ const addressSlice = createSlice({
         }
       )
       .addCase(fetchUserAddresses.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload as string;
+      })
+      .addCase(addUserAddress.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(
+        addUserAddress.fulfilled,
+        (state, action: PayloadAction<Address>) => {
+          state.loading = false;
+          state.addresses.push(action.payload); // add new address to state
+        }
+      )
+      .addCase(addUserAddress.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload as string;
       });
