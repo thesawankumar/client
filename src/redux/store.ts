@@ -17,6 +17,7 @@ import homeCategorySlice from "./admin/slices/homeCategorySlice";
 import customerSlice from "../redux/customer/slices/customerSlice";
 import dealSlice from "../redux/admin/slices/dealSlice";
 import couponSlice from "../redux/admin/slices/couponSlice";
+import addressSlice from "../redux/customer/slices/addressSlice";
 
 const rootReducer = combineReducers({
   // your reducers here
@@ -34,6 +35,7 @@ const rootReducer = combineReducers({
   customer: customerSlice,
   deal: dealSlice,
   coupon: couponSlice,
+  address: addressSlice,
 });
 
 export const store = configureStore({

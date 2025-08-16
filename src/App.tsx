@@ -52,10 +52,18 @@ function App() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    dispatch(fetchSellerProfile(localStorage.getItem("jwt") || ""));
+    const userJwt = localStorage.getItem("user-jwt");
+    const adminJwt = localStorage.getItem("admin-jwt");
+    const sellerJwt = localStorage.getItem("jwt");
+
+    if (sellerJwt) {
+      dispatch(fetchSellerProfile(sellerJwt));
+    } else if (userJwt || adminJwt) {
+      dispatch(fetchUserProfile({ jwt: userJwt || adminJwt }));
+    }
+
     dispatch(createHomePageCategories(homeCategories));
   }, []);
-
   useEffect(() => {
     if (seller.profile) {
       navigate("/seller");
