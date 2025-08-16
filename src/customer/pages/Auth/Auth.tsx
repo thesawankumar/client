@@ -6,6 +6,7 @@ import {
   fetchUserProfile,
   sendLoginOtp,
   signin,
+  signup,
 } from "../../../redux/auth/AuthAction";
 import CircularProgress from "@mui/material/CircularProgress";
 import { toast } from "react-toastify";
@@ -39,21 +40,31 @@ export default function Auth() {
   });
 
   const formik = useFormik({
-    initialValues: { email: "", otp: "", name: "" },
+    initialValues: { email: "", otp: "", fullName: "" },
     validationSchema,
     onSubmit: async (values) => {
       try {
-        const resultAction = await dispatch(signin(values));
-        if (signin.fulfilled.match(resultAction)) {
-          toast.success("Sign-in successful!");
+        let resultAction;
+        if (isLogin) {
+          resultAction = await dispatch(signin(values));
+        } else {
+          resultAction = await dispatch(signup(values));
+        }
+
+        if (
+          (isLogin && signin.fulfilled.match(resultAction)) ||
+          (!isLogin && signup.fulfilled.match(resultAction))
+        ) {
+          toast.success(
+            isLogin ? "Sign-in successful!" : "Registration successful!"
+          );
           dispatch(fetchUserProfile(values));
           navigate("/account/profile");
-          // After signin, reset or do something else if needed
         } else {
-          toast.error("Sign-in failed");
+          toast.error(isLogin ? "Sign-in failed" : "Registration failed");
         }
       } catch (error) {
-        toast.error("Unexpected error during sign-in");
+        toast.error("Unexpected error during authentication");
       }
     },
   });
@@ -188,20 +199,20 @@ export default function Auth() {
               <div className="mt-4">
                 <input
                   type="text"
-                  name="name"
+                  name="fullName"
                   placeholder="Full Name"
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
-                  value={formik.values.name || ""}
+                  value={formik.values.fullName || ""}
                   className={`w-full px-4 py-2 border rounded-lg outline-none focus:ring-2 text-sm ${
-                    formik.touched.name && formik.errors.name
+                    formik.touched.fullName && formik.errors.fullName
                       ? "border-red-500 focus:ring-red-300"
                       : "border-gray-300 focus:ring-blue-500"
                   }`}
                 />
-                {formik.touched.name && formik.errors.name && (
+                {formik.touched.fullName && formik.errors.fullName && (
                   <p className="text-red-500 text-xs mt-1">
-                    {formik.errors.name}
+                    {formik.errors.fullName}
                   </p>
                 )}
               </div>
