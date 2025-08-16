@@ -44,6 +44,7 @@ import PaymentSuccess from "./customer/pages/Payment/PaymentSuccess";
 import Wishlist from "./customer/pages/Wishlist/Wishlist";
 import { createHomePageCategories } from "./redux/customer/actions/customerAction";
 import { homeCategories } from "./data/HomeCategories";
+import SavedCard from "./customer/pages/Account/User/SavedCard";
 
 function App() {
   const dispatch = useAppDispatch();
@@ -92,7 +93,7 @@ function App() {
           {/* Account Routes */}
           <Route path="/account" element={<Account />}>
             <Route path="profile" element={<UserDetails />} />
-            <Route path="save-card" element={<div>Saved Card</div>} />
+            <Route path="save-card" element={<SavedCard />} />
             <Route path="address" element={<Address />} />
             <Route path="orders" element={<Order />} />
             <Route
