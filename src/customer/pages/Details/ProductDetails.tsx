@@ -1,11 +1,21 @@
 import { useEffect, useState } from "react";
-import { Star, ShoppingBag, FavoriteBorder, Favorite } from "@mui/icons-material";
+import {
+  Star,
+  ShoppingBag,
+  FavoriteBorder,
+  Favorite,
+} from "@mui/icons-material";
 import SimilarProduct from "./SimilarProduct";
 import ReviewCard from "../Review/ReviewCard";
 import { useAppDispatch, useAppSelector } from "../../../redux/store";
 import { useParams } from "react-router-dom";
 import { fetchProductById } from "../../../redux/customer/actions/customerProductAction";
 import { addProductToWishlist } from "../../../redux/customer/actions/wishlistAction";
+import { toast } from "react-toastify";
+import {
+  addItemToCart,
+  fetchUserCart,
+} from "../../../redux/customer/actions/cartAction";
 
 export default function ProductDetails() {
   const [mainImage, setMainImage] = useState<string>("");
@@ -13,6 +23,44 @@ export default function ProductDetails() {
   const dispatch = useAppDispatch();
   const { productId } = useParams();
   const { product, wishlist } = useAppSelector((store) => store);
+  const [selectedSize, setSelectedSize] = useState<string>(""); // default empty
+
+  const availableSizes = product?.product?.sizes
+    ? product.product.sizes.split(",")
+    : ["S", "M", "L"]; // fallback if sizes missing
+
+  // inside your component
+  // const jwt = useAppSelector((store) => store.auth?.jwt); // make sure you have jwt in your store
+
+  const handleAddToCart = async () => {
+    const jwt = localStorage.getItem("user-jwt");
+    if (!jwt) {
+      toast.error("Please login first!");
+      return;
+    }
+
+    if (!product?.product?.id) return;
+
+    try {
+      await dispatch(
+        addItemToCart({
+          jwt: jwt,
+          request: {
+            productId: product.product.id,
+            size: selectedSize, // replace with selected size if available
+            quantity: quantity,
+          },
+        })
+      ).unwrap();
+
+      // Optionally fetch updated cart
+      dispatch(fetchUserCart(jwt));
+
+      toast.success("Item added to cart successfully!");
+    } catch (err) {
+      toast.error("Failed to add item to cart");
+    }
+  };
 
   const maxQty = product?.product?.quantity ?? 100;
 
@@ -86,9 +134,29 @@ export default function ProductDetails() {
           <p className="text-sm sm:text-base text-gray-600">
             Brand:{" "}
             <span className="font-semibold">
-              {product?.product?.seller?.businessDetails.businessName ?? "Brand"}
+              {product?.product?.seller?.businessDetails.businessName ??
+                "Brand"}
             </span>
           </p>
+          <div className="flex items-center gap-3 mt-4">
+            <span className="font-semibold text-sm sm:text-base">Size:</span>
+            {availableSizes.map((size: string) => (
+              <button
+                key={size}
+                onClick={() => setSelectedSize(size)}
+                className={`
+        px-2  rounded-full border transition-all duration-200
+        ${
+          selectedSize === size
+            ? "bg-pink-600 text-white border-pink-600"
+            : "bg-white text-gray-700 border-gray-300 hover:bg-pink-100 hover:border-pink-400"
+        }
+      `}
+              >
+                {size}
+              </button>
+            ))}
+          </div>
 
           <div className="flex items-center gap-2">
             <div className="flex items-center">
@@ -108,20 +176,27 @@ export default function ProductDetails() {
               ₹{product?.product?.mrpPrice ?? ""}
             </span>
           </div>
-          {product?.product?.discountPercentage && product?.product?.mrpPrice && (
-            <p className="text-green-600 text-xs sm:text-sm">
-              You save ₹
-              {((product.product.mrpPrice * product.product.discountPercentage) / 100).toFixed(2)}{" "}
-              ({product.product.discountPercentage}%)
-            </p>
-          )}
+          {product?.product?.discountPercentage &&
+            product?.product?.mrpPrice && (
+              <p className="text-green-600 text-xs sm:text-sm">
+                You save ₹
+                {(
+                  (product.product.mrpPrice *
+                    product.product.discountPercentage) /
+                  100
+                ).toFixed(2)}{" "}
+                ({product.product.discountPercentage}%)
+              </p>
+            )}
 
           <p className="text-gray-700 text-xs sm:text-sm mt-1 sm:mt-2">
             {product?.product?.description ?? "No description available."}
           </p>
 
           <div className="flex items-center gap-2 sm:gap-3 mt-3 sm:mt-4">
-            <span className="font-semibold text-sm sm:text-base">Quantity:</span>
+            <span className="font-semibold text-sm sm:text-base">
+              Quantity:
+            </span>
             <button
               onClick={() => handleQty("dec")}
               className="px-2 sm:px-3 py-1 border rounded hover:bg-gray-100"
@@ -141,7 +216,10 @@ export default function ProductDetails() {
 
           {/* Buttons with wishlist */}
           <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 mt-4 sm:mt-5">
-            <button className="flex items-center justify-center gap-2 bg-pink-600 text-white px-4 sm:px-6 py-2 rounded hover:bg-pink-700 transition">
+            <button
+              onClick={handleAddToCart}
+              className="flex items-center justify-center gap-2 bg-pink-600 text-white px-4 sm:px-6 py-2 rounded hover:bg-pink-700 transition"
+            >
               <ShoppingBag fontSize="small" />
               Add to Bag
             </button>
@@ -154,14 +232,20 @@ export default function ProductDetails() {
                 backgroundColor: isInWishlist() ? "#fee2e2" : "transparent",
               }}
             >
-              {isInWishlist() ? <Favorite fontSize="small" /> : <FavoriteBorder fontSize="small" />}
+              {isInWishlist() ? (
+                <Favorite fontSize="small" />
+              ) : (
+                <FavoriteBorder fontSize="small" />
+              )}
               Wishlist
             </button>
           </div>
 
           <div className="mt-4 sm:mt-6 text-xs sm:text-sm text-gray-700 leading-relaxed">
             {product?.product?.description ? (
-              product.product.description.split("\n").map((line, idx) => <p key={idx}>• {line}</p>)
+              product.product.description
+                .split("\n")
+                .map((line, idx) => <p key={idx}>• {line}</p>)
             ) : (
               <>
                 <p>• Premium quality fabric with a soft feel.</p>

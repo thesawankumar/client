@@ -1,21 +1,29 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import ClearIcon from "@mui/icons-material/Clear";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../../redux/store";
 import { applyCoupon } from "../../../redux/admin/actions/copuonAction";
-// import { applyCoupon } from "../../../redux/customer/actions/couponAction";
 
 export default function PricingCard() {
   const [coupon, setCoupon] = useState("");
   const [isApplied, setIsApplied] = useState(false);
+  const [discount, setDiscount] = useState(0);
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+  const { cart } = useAppSelector((state) => state.cart); // always latest cart
+  const jwt = localStorage.getItem("user-jwt") || "";
+
+  const shipping = 79;
+  const platformFee = 0;
+
+  // Dynamically calculate subtotal from cart items
+  const subtotal =
+    cart?.cartItems?.reduce((acc, item) => acc + item.sellingPrice, 0) || 0;
+
+  const total = subtotal - discount + shipping + platformFee;
 
   const handleChange = (e: any) => setCoupon(e.target.value);
-
-  const dispatch = useAppDispatch();
-  // const { cart } = useAppSelector((state) => state.coupon); // optional if you want updated cart
-  const jwt = localStorage.getItem("user-jwt") || "";
 
   const handleApply = () => {
     if (coupon.trim() === "") {
@@ -23,27 +31,31 @@ export default function PricingCard() {
       return;
     }
 
-    // Dispatch applyCoupon thunk
     dispatch(
       applyCoupon({
         apply: "true",
         code: coupon,
-        orderValue: 1399, // you can calculate subtotal dynamically
+        orderValue: subtotal, // send current subtotal
         jwt,
       })
     )
       .unwrap()
-      .then(() => {
+      .then((res: any) => {
         setIsApplied(true);
+        setCoupon(res?.couponCode || coupon); // backend returns applied coupon code
+        setDiscount(subtotal - res?.totalSellingPrice || 0); // calculate discount from backend
         toast.success("Coupon applied successfully!", { theme: "colored" });
       })
       .catch((err) => {
-        toast.error(err || "Invalid coupon code!", { theme: "colored" });
+        toast.error(err?.message || "Coupon is not valid or has expired", {
+          theme: "colored",
+        });
       });
   };
 
   const handleRemoveCoupon = () => {
     setCoupon("");
+    setDiscount(0);
     setIsApplied(false);
     toast.info("Coupon removed!", { theme: "colored" });
   };
@@ -87,28 +99,30 @@ export default function PricingCard() {
       <div className="text-sm space-y-2 border-t pt-4">
         <div className="flex justify-between">
           <span>Subtotal</span>
-          <span className="font-semibold">₹ 1399</span>
+          <span className="font-semibold">₹{subtotal}</span>
         </div>
         <div className="flex justify-between">
           <span>Discount</span>
           <span className="font-semibold text-green-600">
-            {isApplied ? "- ₹ 600" : "- ₹ 0"}
+            {isApplied ? `- ₹ ${discount}` : "- ₹ 0"}
           </span>
         </div>
         <div className="flex justify-between">
           <span>Shipping</span>
-          <span className="font-semibold">₹ 79</span>
+          <span className="font-semibold">₹{shipping}</span>
         </div>
         <div className="flex justify-between">
           <span>Platform fee</span>
-          <span className="font-semibold text-green-600">Free</span>
+          <span className="font-semibold text-green-600">
+            {platformFee === 0 ? "Free" : `₹ ${platformFee}`}
+          </span>
         </div>
       </div>
 
       {/* Total */}
       <div className="flex justify-between items-center text-base font-bold border-t pt-4">
         <span>Total</span>
-        <span>₹ {isApplied ? "799" : "1399"}</span>
+        <span>₹ {total}</span>
       </div>
 
       {/* Buy Button */}
